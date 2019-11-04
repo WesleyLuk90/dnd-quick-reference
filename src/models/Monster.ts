@@ -49,7 +49,7 @@ const TypeSchema = t.union([
 
 export type MonsterType = t.TypeOf<typeof TypeSchema>;
 
-export enum Alignment {
+export enum Alignments {
     LAWFUL = "L",
     NEUTRAL = "N",
     NEUTRAL_X = "NX",
@@ -62,15 +62,15 @@ export enum Alignment {
 }
 
 const AlignmentsSchema = t.union([
-    t.literal(Alignment.LAWFUL),
-    t.literal(Alignment.NEUTRAL),
-    t.literal(Alignment.NEUTRAL_X),
-    t.literal(Alignment.NEUTRAL_Y),
-    t.literal(Alignment.CHAOTIC),
-    t.literal(Alignment.GOOD),
-    t.literal(Alignment.EVIL),
-    t.literal(Alignment.UNALIGNED),
-    t.literal(Alignment.ANY)
+    t.literal(Alignments.LAWFUL),
+    t.literal(Alignments.NEUTRAL),
+    t.literal(Alignments.NEUTRAL_X),
+    t.literal(Alignments.NEUTRAL_Y),
+    t.literal(Alignments.CHAOTIC),
+    t.literal(Alignments.GOOD),
+    t.literal(Alignments.EVIL),
+    t.literal(Alignments.UNALIGNED),
+    t.literal(Alignments.ANY)
 ]);
 
 const ComplexAlignment = t.type({
@@ -81,9 +81,11 @@ const SpecialAlignment = t.type({
     special: t.string
 });
 
-const AlignmentSchema = t.array(
-    t.union([AlignmentsSchema, ComplexAlignment, SpecialAlignment])
+const AlignmentSchema = optional(
+    t.array(t.union([AlignmentsSchema, ComplexAlignment, SpecialAlignment]))
 );
+
+export type CompoundAlignment = t.TypeOf<typeof AlignmentSchema>;
 
 export const MonsterSchema = t.type({
     name: t.string,
@@ -91,7 +93,7 @@ export const MonsterSchema = t.type({
     ac: t.array(ACSchema),
     size: SizeSchema,
     type: TypeSchema,
-    alignment: optional(AlignmentSchema)
+    alignment: AlignmentSchema
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;

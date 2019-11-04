@@ -1,6 +1,6 @@
 import React from "react";
 import { Monster } from "../models/Monster";
-import { formatSize, formatType } from "../models/Monsters";
+import { formatAlignment, formatSize, formatType } from "../models/Monsters";
 import { makeLine } from "../utils/Formatting";
 
 export function MonsterSheet(props: { monster: Monster }) {
@@ -10,7 +10,8 @@ export function MonsterSheet(props: { monster: Monster }) {
             <p>
                 {makeLine(
                     formatSize(props.monster.size),
-                    formatType(props.monster.type)
+                    formatType(props.monster.type) + ",",
+                    formatAlignment(props.monster.alignment)
                 )}
             </p>
             <hr />
