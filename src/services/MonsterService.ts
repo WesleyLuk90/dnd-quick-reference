@@ -1,4 +1,5 @@
 import { HttpService } from "./HttpService";
+import { Monster, MonsterReference } from "../models/Monster";
 
 function url(file: string) {
     return `/data/bestiary/${file}`;
@@ -8,23 +9,11 @@ interface Index {
     [key: string]: string;
 }
 
-export interface MonsterReference {
-    name: string;
-    book?: string;
-}
-
-export interface Monster {
-    source: string;
-    name: string;
-    isNpc: boolean;
-    _copy: boolean;
-}
-
 interface Bestiary {
     monster: Monster[];
 }
 
-export class CreatureService {
+export class MonsterService {
     static async all(): Promise<Monster[]> {
         const res = await HttpService.getJson<Index>(url("index.json"));
         let all: Monster[] = [];
@@ -36,9 +25,11 @@ export class CreatureService {
     }
 
     static async get(ref: MonsterReference): Promise<Monster> {
-        const all = await CreatureService.all();
+        const all = await MonsterService.all();
         const found = all.find(
-            m => m.name.toLowerCase() == ref.name.toLowerCase()
+            m =>
+                m.name.toLowerCase() === ref.name.toLowerCase() &&
+                (ref.book == null || ref.book === m.source)
         );
         if (found == null) {
             throw new Error(`Failed to find monster ${JSON.stringify(ref)}`);
