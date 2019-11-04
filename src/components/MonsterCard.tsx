@@ -18,5 +18,7 @@ export function MonsterCard(props: Props) {
         return null;
     }
 
+    console.log(monster);
+
     return <MonsterSheet monster={monster} />;
 }
