@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Monster, MonsterReference } from "../models/Monster";
 import { MonsterService } from "../services/MonsterService";
-import { MonsterReference, Monster } from "../models/Monster";
 import { MonsterSheet } from "./MonsterSheet";
 
 interface Props {

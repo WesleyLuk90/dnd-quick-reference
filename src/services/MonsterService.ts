@@ -52,16 +52,16 @@ export class MonsterService {
             const found = find(monsters, m._copy);
             monsters.push({ ...found, ...m });
         });
-        monsters.map(m => {
+        return monsters.map(m => {
             const result = MonsterSchema.decode(m);
             if (isLeft(result)) {
                 console.log(m);
-                throw new Error(PathReporter.report(result).join("\n"));
+                console.log(PathReporter.report(result).join("\n"));
+                return m;
             } else {
                 return result.right;
             }
         });
-        return monsters;
     }
 
     static async get(ref: MonsterReference): Promise<Monster> {
