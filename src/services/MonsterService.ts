@@ -1,16 +1,14 @@
-import { HttpService } from "./HttpService";
+import { isLeft } from "fp-ts/lib/Either";
+import { PathReporter } from "io-ts/lib/PathReporter";
 import {
-    Monster,
-    MonsterReference,
     ExtendedMonster,
     isExtendedMonster,
     isMonster,
-    Size,
+    Monster,
+    MonsterReference,
     MonsterSchema
 } from "../models/Monster";
-import { isLeft } from "fp-ts/lib/Either";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { Errors } from "io-ts";
+import { HttpService } from "./HttpService";
 
 function url(file: string) {
     return `/data/bestiary/${file}`;

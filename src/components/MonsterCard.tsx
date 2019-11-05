@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Monster, MonsterReference } from "../models/Monster";
+import React from "react";
+import { MonsterReference } from "../models/Monster";
 import { MonsterService } from "../services/MonsterService";
+import { loader } from "./Loader";
 import { MonsterSheet } from "./MonsterSheet";
 
 interface Props {
@@ -8,17 +9,8 @@ interface Props {
 }
 
 export function MonsterCard(props: Props) {
-    const [monster, setMonster] = useState<Monster | null>(null);
-
-    useEffect(() => {
-        MonsterService.get(props.monster).then(setMonster);
-    }, [props.monster]);
-
-    if (monster == null) {
-        return null;
-    }
-
-    console.log(monster);
-
-    return <MonsterSheet monster={monster} />;
+    return loader(
+        () => MonsterService.get(props.monster),
+        monster => <MonsterSheet monster={monster} />
+    );
 }
