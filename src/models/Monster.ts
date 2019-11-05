@@ -11,6 +11,7 @@ const ComplexACSchema = t.type({
 });
 
 const ACSchema = t.union([t.number, ComplexACSchema]);
+export type ArmorClass = t.TypeOf<typeof ACSchema>;
 
 export enum Size {
     TINY = "T",

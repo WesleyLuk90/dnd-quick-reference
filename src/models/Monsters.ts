@@ -1,4 +1,10 @@
-import { Alignments, CompoundAlignment, MonsterType, Size } from "./Monster";
+import {
+    Alignments,
+    ArmorClass,
+    CompoundAlignment,
+    MonsterType,
+    Size
+} from "./Monster";
 
 export function formatSize(size: Size): string {
     switch (size) {
@@ -54,4 +60,26 @@ export function formatAlignment(alignment: CompoundAlignment): string {
             }
         })
         .join(" ");
+}
+
+export function formatArmorClasses(armorClass: ArmorClass[]): string {
+    return armorClass.map(formatArmorClass).join(" ");
+}
+
+function formatArmorClass(armorClass: ArmorClass): string {
+    if (typeof armorClass === "number") {
+        return armorClass.toString();
+    }
+    const extra = [];
+    if (armorClass.from) {
+        extra.push(...armorClass.from);
+    }
+    if (armorClass.condition != null) {
+        extra.push(armorClass.condition);
+    }
+    if (extra.length === 0) {
+        return armorClass.ac.toString();
+    } else {
+        return `${armorClass.ac} (${extra.join(" ")})`;
+    }
 }
