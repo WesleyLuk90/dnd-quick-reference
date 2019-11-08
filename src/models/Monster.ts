@@ -101,6 +101,42 @@ const HealthSchema = t.union([SimpleHealth, SpecialHealth]);
 
 export type Health = t.TypeOf<typeof HealthSchema>;
 
+const SkillsSchema = t.union([
+    t.undefined,
+    t.type({
+        acrobatics: optional(t.string),
+        perception: optional(t.string),
+        stealth: optional(t.string),
+        history: optional(t.string),
+        insight: optional(t.string),
+        intimidation: optional(t.string),
+        persuasion: optional(t.string),
+        performance: optional(t.string),
+        arcana: optional(t.string),
+        investigation: optional(t.string),
+        religion: optional(t.string),
+        athletics: optional(t.string),
+        nature: optional(t.string),
+        survival: optional(t.string),
+        deception: optional(t.string),
+        medicine: optional(t.string),
+        "animal handling": optional(t.string),
+        "sleight of hand": optional(t.string),
+        other: optional(
+            t.array(
+                t.type({
+                    oneOf: t.type({
+                        arcana: t.string,
+                        history: t.string,
+                        nature: t.string,
+                        religion: t.string
+                    })
+                })
+            )
+        )
+    })
+]);
+
 export const MonsterSchema = t.type({
     name: t.string,
     source: t.string,
@@ -114,7 +150,8 @@ export const MonsterSchema = t.type({
     con: t.number,
     wis: t.number,
     int: t.number,
-    cha: t.number
+    cha: t.number,
+    skill: SkillsSchema
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;
