@@ -3,6 +3,7 @@ import { Monster } from "../models/Monster";
 import {
     formatAlignment,
     formatArmorClasses,
+    formatHealth,
     formatSize,
     formatType
 } from "../models/Monsters";
@@ -11,6 +12,7 @@ import { Definition } from "./Definition";
 import "./MonsterSheet.css";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
+    console.log(monster);
     return (
         <div>
             <h2>{monster.name}</h2>
@@ -26,6 +28,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
                 label="Armor Class"
                 text={formatArmorClasses(monster.ac)}
             />
+            <Definition label="Hit Points" text={formatHealth(monster.hp)} />
         </div>
     );
 }

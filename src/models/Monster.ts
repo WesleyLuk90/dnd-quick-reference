@@ -88,13 +88,27 @@ const AlignmentSchema = optional(
 
 export type CompoundAlignment = t.TypeOf<typeof AlignmentSchema>;
 
+const SimpleHealth = t.type({
+    average: t.number,
+    formula: t.string
+});
+
+const SpecialHealth = t.type({
+    special: t.string
+});
+
+const HealthSchema = t.union([SimpleHealth, SpecialHealth]);
+
+export type Health = t.TypeOf<typeof HealthSchema>;
+
 export const MonsterSchema = t.type({
     name: t.string,
     source: t.string,
     ac: t.array(ACSchema),
     size: SizeSchema,
     type: TypeSchema,
-    alignment: AlignmentSchema
+    alignment: AlignmentSchema,
+    hp: HealthSchema
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;

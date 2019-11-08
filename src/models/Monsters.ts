@@ -2,6 +2,7 @@ import {
     Alignments,
     ArmorClass,
     CompoundAlignment,
+    Health,
     MonsterType,
     Size
 } from "./Monster";
@@ -82,4 +83,11 @@ function formatArmorClass(armorClass: ArmorClass): string {
     } else {
         return `${armorClass.ac} (${extra.join(" ")})`;
     }
+}
+
+export function formatHealth(health: Health) {
+    if ("special" in health) {
+        return health.special;
+    }
+    return `${health.average} (${health.formula})`;
 }
