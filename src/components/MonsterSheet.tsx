@@ -22,9 +22,10 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
                 )}
             </p>
             <hr />
-            <Definition label="Armor Class">
-                {formatArmorClasses(monster.ac)}
-            </Definition>
+            <Definition
+                label="Armor Class"
+                text={formatArmorClasses(monster.ac)}
+            />
         </div>
     );
 }
