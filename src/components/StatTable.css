@@ -1,0 +1,8 @@
+.stat-table {
+    display: flex;
+}
+
+.stat {
+    flex: 1 0 auto;
+    text-align: center;
+}

@@ -108,7 +108,13 @@ export const MonsterSchema = t.type({
     size: SizeSchema,
     type: TypeSchema,
     alignment: AlignmentSchema,
-    hp: HealthSchema
+    hp: HealthSchema,
+    str: t.number,
+    dex: t.number,
+    con: t.number,
+    wis: t.number,
+    int: t.number,
+    cha: t.number
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;
