@@ -1,5 +1,6 @@
 import { isLeft } from "fp-ts/lib/Either";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import { isObjectLike } from "lodash";
 import {
     ExtendedMonster,
     isExtendedMonster,
@@ -50,6 +51,7 @@ export class MonsterService {
             const found = find(monsters, m._copy);
             monsters.push({ ...found, ...m });
         });
+        let first = true;
         return monsters.map(m => {
             const result = MonsterSchema.decode(m);
             if (isLeft(result)) {
@@ -57,6 +59,15 @@ export class MonsterService {
                 console.log(PathReporter.report(result).join("\n"));
                 return m;
             } else {
+                const differentKeys = Object.keys(result.right).filter(
+                    key => !isEqual((m as any)[key], (result.right as any)[key])
+                );
+                if (differentKeys.length > 0 && first) {
+                    console.log(differentKeys);
+                    console.log(result.right);
+                    console.log(m);
+                    first = false;
+                }
                 return result.right;
             }
         });
@@ -66,4 +77,21 @@ export class MonsterService {
         const all = await MonsterService.all();
         return find(all, ref);
     }
+}
+
+function isEqual(left: any, right: any): boolean {
+    if (left === right) {
+        return true;
+    }
+    if (Array.isArray(left) && Array.isArray(right)) {
+        return (
+            left.length === right.length &&
+            left.every((l, i) => isEqual(l, right[i]))
+        );
+    }
+    if (isObjectLike(left) && isObjectLike(right)) {
+        const keys = new Set([...Object.keys(left), ...Object.keys(right)]);
+        return Array.from(keys.values()).every(k => isEqual(left[k], right[k]));
+    }
+    return false;
 }

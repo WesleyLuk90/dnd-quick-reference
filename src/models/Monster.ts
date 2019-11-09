@@ -4,10 +4,11 @@ function optional<T extends t.Mixed>(type: T): t.UnionC<[T, t.UndefinedC]> {
     return t.union([type, t.undefined]);
 }
 
-const ComplexACSchema = t.type({
+const ComplexACSchema = t.strict({
     ac: t.number,
     from: optional(t.array(t.string)),
-    condition: optional(t.string)
+    condition: optional(t.string),
+    braces: optional(t.boolean)
 });
 
 const ACSchema = t.union([t.number, ComplexACSchema]);
@@ -33,7 +34,7 @@ const SizeSchema = t.union([
 
 const TypeTag = t.union([
     t.string,
-    t.type({
+    t.strict({
         tag: t.string,
         prefix: t.string
     })
@@ -41,7 +42,7 @@ const TypeTag = t.union([
 
 const TypeSchema = t.union([
     t.string,
-    t.type({
+    t.strict({
         type: t.string,
         tags: optional(t.array(TypeTag)),
         swarmSize: optional(t.string)
@@ -74,11 +75,12 @@ const AlignmentsSchema = t.union([
     t.literal(Alignments.ANY)
 ]);
 
-const ComplexAlignment = t.type({
-    alignment: t.array(AlignmentsSchema)
+const ComplexAlignment = t.strict({
+    alignment: t.array(AlignmentsSchema),
+    chance: optional(t.number)
 });
 
-const SpecialAlignment = t.type({
+const SpecialAlignment = t.strict({
     special: t.string
 });
 
@@ -88,12 +90,12 @@ const AlignmentSchema = optional(
 
 export type CompoundAlignment = t.TypeOf<typeof AlignmentSchema>;
 
-const SimpleHealth = t.type({
+const SimpleHealth = t.strict({
     average: t.number,
     formula: t.string
 });
 
-const SpecialHealth = t.type({
+const SpecialHealth = t.strict({
     special: t.string
 });
 
@@ -102,8 +104,8 @@ const HealthSchema = t.union([SimpleHealth, SpecialHealth]);
 export type Health = t.TypeOf<typeof HealthSchema>;
 
 const SkillsSchema = t.union([
-    t.undefined,
-    t.type({
+    t.void,
+    t.strict({
         acrobatics: optional(t.string),
         perception: optional(t.string),
         stealth: optional(t.string),
@@ -124,8 +126,8 @@ const SkillsSchema = t.union([
         "sleight of hand": optional(t.string),
         other: optional(
             t.array(
-                t.type({
-                    oneOf: t.type({
+                t.strict({
+                    oneOf: t.strict({
                         arcana: t.string,
                         history: t.string,
                         nature: t.string,
@@ -137,7 +139,25 @@ const SkillsSchema = t.union([
     })
 ]);
 
-export const MonsterSchema = t.type({
+const SpecificSpeedSchema = t.union([
+    t.number,
+    t.strict({
+        number: t.number,
+        condition: t.string
+    }),
+    t.void
+]);
+
+const SpeedSchema = t.strict({
+    walk: SpecificSpeedSchema,
+    climb: SpecificSpeedSchema,
+    fly: SpecificSpeedSchema,
+    swim: SpecificSpeedSchema,
+    burrow: SpecificSpeedSchema,
+    canHover: optional(t.boolean)
+});
+
+export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
     ac: t.array(ACSchema),
@@ -151,7 +171,8 @@ export const MonsterSchema = t.type({
     wis: t.number,
     int: t.number,
     cha: t.number,
-    skill: SkillsSchema
+    skill: SkillsSchema,
+    speed: SpeedSchema
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;
