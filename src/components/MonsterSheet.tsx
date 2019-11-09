@@ -10,6 +10,7 @@ import {
 import { makeLine } from "../utils/Formatting";
 import { Definition } from "./Definition";
 import "./MonsterSheet.css";
+import { MonsterSkills } from "./MonsterSkills";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
@@ -32,6 +33,8 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <Definition label="Hit Points" text={formatHealth(monster.hp)} />
             <hr />
             <StatTable monster={monster} />
+            <hr />
+            <MonsterSkills monster={monster} />
         </div>
     );
 }
