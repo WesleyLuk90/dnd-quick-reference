@@ -139,23 +139,26 @@ const SkillsSchema = t.union([
     })
 ]);
 
-const SpecificSpeedSchema = t.union([
+const SpeedSchema = t.union([
     t.number,
     t.strict({
         number: t.number,
         condition: t.string
-    }),
-    t.void
+    })
 ]);
 
-const SpeedSchema = t.strict({
-    walk: SpecificSpeedSchema,
-    climb: SpecificSpeedSchema,
-    fly: SpecificSpeedSchema,
-    swim: SpecificSpeedSchema,
-    burrow: SpecificSpeedSchema,
+export type Speed = t.TypeOf<typeof SpeedSchema>;
+
+const SpeedsSchema = t.strict({
+    walk: optional(SpeedSchema),
+    climb: optional(SpeedSchema),
+    fly: optional(SpeedSchema),
+    swim: optional(SpeedSchema),
+    burrow: optional(SpeedSchema),
     canHover: optional(t.boolean)
 });
+
+export type Speeds = t.TypeOf<typeof SpeedsSchema>;
 
 export const MonsterSchema = t.strict({
     name: t.string,
@@ -172,7 +175,7 @@ export const MonsterSchema = t.strict({
     int: t.number,
     cha: t.number,
     skill: SkillsSchema,
-    speed: SpeedSchema
+    speed: SpeedsSchema
 });
 
 export type Monster = t.TypeOf<typeof MonsterSchema>;
