@@ -1,6 +1,7 @@
 import { isLeft } from "fp-ts/lib/Either";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { isObjectLike } from "lodash";
+import { Monster } from "../models/Monster";
 import {
     ExtendedMonster,
     isExtendedMonster,
@@ -10,6 +11,7 @@ import {
     MonsterSchema
 } from "../models/MonsterData";
 import { HttpService } from "./HttpService";
+import { toMonster } from "./MonsterConverter";
 
 function url(file: string) {
     return `/data/bestiary/${file}`;
@@ -23,20 +25,24 @@ interface Bestiary {
     monster: (MonsterData | ExtendedMonster)[];
 }
 
-function find(monsters: MonsterData[], ref: MonsterReference): MonsterData {
-    const found = monsters.find(
-        m =>
-            m.name.toLowerCase() === ref.name.toLowerCase() &&
-            (ref.source == null || ref.source === m.source)
-    );
+function find(monsters: Monster[], ref: MonsterReference): Monster {
+    const found = monsters.find(m => m.is(ref));
     if (found == null) {
         throw new Error(`Failed to find monster ${JSON.stringify(ref)}`);
     }
     return found;
 }
 
+let cache: Promise<Monster[]> | null = null;
 export class MonsterService {
-    static async all(): Promise<MonsterData[]> {
+    static all(): Promise<Monster[]> {
+        if (cache == null) {
+            cache = MonsterService.allRaw();
+        }
+        return cache;
+    }
+
+    static async allRaw(): Promise<Monster[]> {
         const res = await HttpService.getJson<Index>(url("index.json"));
         let monsters: MonsterData[] = [];
         let extended: ExtendedMonster[] = [];
@@ -48,32 +54,49 @@ export class MonsterService {
             );
         }
         extended.forEach(m => {
-            const found = find(monsters, m._copy);
+            const reference = m._copy;
+            const found = monsters.find(
+                mon =>
+                    mon.name === reference.name &&
+                    (reference.source == null ||
+                        reference.source === mon.source)
+            );
+            if (found == null) {
+                throw new Error(
+                    `Monster ${JSON.stringify(reference)} not found`
+                );
+            }
             monsters.push({ ...found, ...m });
         });
         let first = true;
-        return monsters.map(m => {
-            const result = MonsterSchema.decode(m);
-            if (isLeft(result)) {
-                console.log(m);
-                console.log(PathReporter.report(result).join("\n"));
-                return m;
-            } else {
-                const differentKeys = Object.keys(result.right).filter(
-                    key => !isEqual((m as any)[key], (result.right as any)[key])
-                );
-                if (differentKeys.length > 0 && first) {
-                    console.log(differentKeys);
-                    console.log(result.right);
+        return monsters
+            .map(m => {
+                const result = MonsterSchema.decode(m);
+                if (isLeft(result)) {
                     console.log(m);
-                    first = false;
+                    console.log(PathReporter.report(result).join("\n"));
+                    return m;
+                } else {
+                    const differentKeys = Object.keys(result.right).filter(
+                        key =>
+                            !isEqual(
+                                (m as any)[key],
+                                (result.right as any)[key]
+                            )
+                    );
+                    if (differentKeys.length > 0 && first) {
+                        console.log(differentKeys);
+                        console.log(result.right);
+                        console.log(m);
+                        first = false;
+                    }
+                    return result.right;
                 }
-                return result.right;
-            }
-        });
+            })
+            .map(toMonster);
     }
 
-    static async get(ref: MonsterReference): Promise<MonsterData> {
+    static async get(ref: MonsterReference): Promise<Monster> {
         const all = await MonsterService.all();
         return find(all, ref);
     }

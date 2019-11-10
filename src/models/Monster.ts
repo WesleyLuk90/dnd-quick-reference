@@ -1,7 +1,7 @@
 import { Alignments } from "./Alignment";
 import { ArmorCheck } from "./ArmorCheck";
 import { Health } from "./Health";
-import { Size } from "./MonsterData";
+import { MonsterReference, Size } from "./MonsterData";
 import { MonsterType } from "./MonsterType";
 import { Skill } from "./Skill";
 import { Speed } from "./Speed";
@@ -20,4 +20,11 @@ export class Monster {
         readonly skills: Skill[],
         readonly speeds: Speed[]
     ) {}
+
+    is(reference: MonsterReference) {
+        return (
+            this.name === reference.name &&
+            (reference.source == null || reference.source === this.source)
+        );
+    }
 }
