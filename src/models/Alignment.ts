@@ -1,5 +1,9 @@
 import { Alignments } from "./MonsterData";
 
 export class Alignment {
-    constructor(readonly alignments: Alignments[]) {}
+    constructor(readonly alignment: Alignments, readonly chance: number) {}
+}
+
+export class MonsterAlignment {
+    constructor(readonly alignments: Alignment[], readonly special: string[]) {}
 }

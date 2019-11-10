@@ -1,4 +1,4 @@
-import { Alignment } from "./Alignment";
+import { Alignments } from "./Alignment";
 import { ArmorCheck } from "./ArmorCheck";
 import { Health } from "./Health";
 import { Size } from "./MonsterData";
@@ -14,7 +14,7 @@ export class Monster {
         readonly acs: ArmorCheck[],
         readonly size: Size,
         readonly type: MonsterType,
-        readonly alignment: Alignment,
+        readonly alignment: Alignments,
         readonly hp: Health,
         readonly stats: Statistics,
         readonly skills: Skill[],

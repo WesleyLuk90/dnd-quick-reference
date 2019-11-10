@@ -6,6 +6,8 @@ export enum SpeedType {
     BURROW = "burrow"
 }
 
+export const SpeedTypes = Object.values(SpeedType);
+
 export class Speed {
     constructor(
         readonly speedType: SpeedType,
