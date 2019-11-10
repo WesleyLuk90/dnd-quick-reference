@@ -1,5 +1,5 @@
 import React from "react";
-import { Monster } from "../models/Monster";
+import { MonsterData } from "../models/MonsterData";
 import {
     formatAlignment,
     formatArmorClasses,
@@ -13,7 +13,7 @@ import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
 import { StatTable } from "./StatTable";
 
-export function MonsterSheet({ monster }: { monster: Monster }) {
+export function MonsterSheet({ monster }: { monster: MonsterData }) {
     console.log(monster);
     return (
         <div>

@@ -1,9 +1,9 @@
 import React from "react";
-import { Monster } from "../models/Monster";
-import { skillLabel, Skills } from "../models/Skills";
+import { MonsterData } from "../models/MonsterData";
+import { skillLabel, SkillTypes } from "../models/SkillType";
 import { Definition } from "./Definition";
 
-export function MonsterSkills({ monster }: { monster: Monster }) {
+export function MonsterSkills({ monster }: { monster: MonsterData }) {
     const { skill } = monster;
     if (skill == null) {
         return null;
@@ -11,7 +11,7 @@ export function MonsterSkills({ monster }: { monster: Monster }) {
     return (
         <Definition
             label="Skills"
-            text={Skills.filter(s => skill[s] != null)
+            text={SkillTypes.filter(s => skill[s] != null)
                 .map(s => `${skillLabel(s)} ${skill[s]}`)
                 .join(" ")}
         />

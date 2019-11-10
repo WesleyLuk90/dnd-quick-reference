@@ -5,7 +5,7 @@ import {
     Health,
     MonsterType,
     Size
-} from "./Monster";
+} from "./MonsterData";
 
 export function formatSize(size: Size): string {
     switch (size) {

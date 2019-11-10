@@ -5,10 +5,10 @@ import {
     ExtendedMonster,
     isExtendedMonster,
     isMonster,
-    Monster,
+    MonsterData,
     MonsterReference,
     MonsterSchema
-} from "../models/Monster";
+} from "../models/MonsterData";
 import { HttpService } from "./HttpService";
 
 function url(file: string) {
@@ -20,10 +20,10 @@ interface Index {
 }
 
 interface Bestiary {
-    monster: (Monster | ExtendedMonster)[];
+    monster: (MonsterData | ExtendedMonster)[];
 }
 
-function find(monsters: Monster[], ref: MonsterReference): Monster {
+function find(monsters: MonsterData[], ref: MonsterReference): MonsterData {
     const found = monsters.find(
         m =>
             m.name.toLowerCase() === ref.name.toLowerCase() &&
@@ -36,9 +36,9 @@ function find(monsters: Monster[], ref: MonsterReference): Monster {
 }
 
 export class MonsterService {
-    static async all(): Promise<Monster[]> {
+    static async all(): Promise<MonsterData[]> {
         const res = await HttpService.getJson<Index>(url("index.json"));
-        let monsters: Monster[] = [];
+        let monsters: MonsterData[] = [];
         let extended: ExtendedMonster[] = [];
         for (const key in res) {
             const response = await HttpService.getJson<Bestiary>(url(res[key]));
@@ -73,7 +73,7 @@ export class MonsterService {
         });
     }
 
-    static async get(ref: MonsterReference): Promise<Monster> {
+    static async get(ref: MonsterReference): Promise<MonsterData> {
         const all = await MonsterService.all();
         return find(all, ref);
     }

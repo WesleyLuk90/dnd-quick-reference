@@ -1,6 +1,6 @@
 import { sentenceCase } from "../utils/Formatting";
 
-export enum Skill {
+export enum SkillType {
     ACROBATICS = "acrobatics",
     PERCEPTION = "perception",
     STEALTH = "stealth",
@@ -21,8 +21,8 @@ export enum Skill {
     SLEIGHT_OF_HAND = "sleight of hand"
 }
 
-export const Skills = Object.values(Skill);
+export const SkillTypes = Object.values(SkillType);
 
-export function skillLabel(skill: Skill) {
+export function skillLabel(skill: SkillType) {
     return sentenceCase(skill);
 }

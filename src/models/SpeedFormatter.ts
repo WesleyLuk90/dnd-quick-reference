@@ -1,4 +1,4 @@
-import { Speed, Speeds } from "./Monster";
+import { Speed, Speeds } from "./MonsterData";
 
 enum SpeedTypes {
     WALK = "walk",

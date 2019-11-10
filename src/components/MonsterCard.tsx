@@ -1,5 +1,5 @@
 import React from "react";
-import { MonsterReference } from "../models/Monster";
+import { MonsterReference } from "../models/MonsterData";
 import { MonsterService } from "../services/MonsterService";
 import { loader } from "./Loader";
 import { MonsterSheet } from "./MonsterSheet";

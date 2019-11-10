@@ -1,5 +1,5 @@
 import React from "react";
-import { Monster } from "../models/Monster";
+import { MonsterData } from "../models/MonsterData";
 import { getSignedMod } from "../models/Stats";
 import "./StatTable.css";
 
@@ -14,7 +14,7 @@ function Stat({ name, value }: { name: string; value: number }) {
     );
 }
 
-export function StatTable({ monster }: { monster: Monster }) {
+export function StatTable({ monster }: { monster: MonsterData }) {
     return (
         <div className="stat-table">
             <Stat name="Str" value={monster.str} />
