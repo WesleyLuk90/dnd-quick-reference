@@ -14,4 +14,11 @@ export class Speed {
         readonly speed: number,
         readonly condition: string
     ) {}
+
+    format() {
+        if (this.speedType === SpeedType.WALK) {
+            return `${this.speed} ft. ${this.condition}`;
+        }
+        return `${this.speedType} ${this.speed} ft. ${this.condition}`;
+    }
 }

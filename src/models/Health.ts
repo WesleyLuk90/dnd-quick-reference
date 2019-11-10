@@ -4,4 +4,9 @@ export class Health {
         readonly formula: string | null,
         readonly special: string | null
     ) {}
+
+    format() {
+        return `${this.average || ""} ${this.formula || ""} ${this.special ||
+            ""}`;
+    }
 }

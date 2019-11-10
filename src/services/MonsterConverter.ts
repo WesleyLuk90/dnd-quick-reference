@@ -1,5 +1,5 @@
 import { Alignment, MonsterAlignment } from "../models/Alignment";
-import { ArmorCheck } from "../models/ArmorCheck";
+import { ArmorClass } from "../models/ArmorClass";
 import { Health } from "../models/Health";
 import { Monster } from "../models/Monster";
 import { MonsterData } from "../models/MonsterData";
@@ -9,12 +9,12 @@ import { SkillTypes } from "../models/SkillType";
 import { Speed, SpeedTypes } from "../models/Speed";
 import { Statistics } from "../models/Statistics";
 
-function toAC(ac: MonsterData["ac"]): ArmorCheck[] {
+function toAC(ac: MonsterData["ac"]): ArmorClass[] {
     return ac.map(a => {
         if (typeof a == "number") {
-            return new ArmorCheck(a, [], "");
+            return new ArmorClass(a, [], "");
         } else {
-            return new ArmorCheck(a.ac, a.from || [], a.condition || "");
+            return new ArmorClass(a.ac, a.from || [], a.condition || "");
         }
     });
 }
@@ -37,7 +37,7 @@ function toMonsterType(type: MonsterData["type"]) {
 
 function toMonsterAlignment(data: MonsterData["alignment"]) {
     if (data == null) {
-        return [];
+        return new MonsterAlignment([], []);
     }
     const special: string[] = [];
     const alignments: Alignment[] = [];
@@ -97,6 +97,7 @@ function toSpeeds(data: MonsterData["speed"]) {
                 return new Speed(s, speed.number, speed.condition);
             }
         }
+        return null;
     }).filter((s): s is Speed => s != null);
 }
 

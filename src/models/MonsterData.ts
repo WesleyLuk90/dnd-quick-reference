@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import { BaseAlignment } from "./Alignment";
+import { Size } from "./Size";
 
 function optional<T extends t.Mixed>(type: T): t.UnionC<[T, t.UndefinedC]> {
     return t.union([type, t.undefined]);
@@ -12,16 +14,6 @@ const ComplexACSchema = t.strict({
 });
 
 const ACSchema = t.union([t.number, ComplexACSchema]);
-export type ArmorClass = t.TypeOf<typeof ACSchema>;
-
-export enum Size {
-    TINY = "T",
-    SMALL = "S",
-    MEDIUM = "M",
-    LARGE = "L",
-    HUGE = "H",
-    GIGANTIC = "G"
-}
 
 const SizeSchema = t.union([
     t.literal(Size.TINY),
@@ -49,30 +41,16 @@ const TypeSchema = t.union([
     })
 ]);
 
-export type MonsterType = t.TypeOf<typeof TypeSchema>;
-
-export enum Alignments {
-    LAWFUL = "L",
-    NEUTRAL = "N",
-    NEUTRAL_X = "NX",
-    NEUTRAL_Y = "NY",
-    CHAOTIC = "C",
-    GOOD = "G",
-    EVIL = "E",
-    UNALIGNED = "U",
-    ANY = "A"
-}
-
 const AlignmentsSchema = t.union([
-    t.literal(Alignments.LAWFUL),
-    t.literal(Alignments.NEUTRAL),
-    t.literal(Alignments.NEUTRAL_X),
-    t.literal(Alignments.NEUTRAL_Y),
-    t.literal(Alignments.CHAOTIC),
-    t.literal(Alignments.GOOD),
-    t.literal(Alignments.EVIL),
-    t.literal(Alignments.UNALIGNED),
-    t.literal(Alignments.ANY)
+    t.literal(BaseAlignment.LAWFUL),
+    t.literal(BaseAlignment.NEUTRAL),
+    t.literal(BaseAlignment.NEUTRAL_X),
+    t.literal(BaseAlignment.NEUTRAL_Y),
+    t.literal(BaseAlignment.CHAOTIC),
+    t.literal(BaseAlignment.GOOD),
+    t.literal(BaseAlignment.EVIL),
+    t.literal(BaseAlignment.UNALIGNED),
+    t.literal(BaseAlignment.ANY)
 ]);
 
 const ComplexAlignment = t.strict({
@@ -88,8 +66,6 @@ const AlignmentSchema = optional(
     t.array(t.union([AlignmentsSchema, ComplexAlignment, SpecialAlignment]))
 );
 
-export type CompoundAlignment = t.TypeOf<typeof AlignmentSchema>;
-
 const SimpleHealth = t.strict({
     average: t.number,
     formula: t.string
@@ -100,8 +76,6 @@ const SpecialHealth = t.strict({
 });
 
 const HealthSchema = t.union([SimpleHealth, SpecialHealth]);
-
-export type Health = t.TypeOf<typeof HealthSchema>;
 
 const SkillsSchema = t.union([
     t.void,
@@ -147,8 +121,6 @@ const SpeedSchema = t.union([
     })
 ]);
 
-export type Speed = t.TypeOf<typeof SpeedSchema>;
-
 const SpeedsSchema = t.strict({
     walk: optional(SpeedSchema),
     climb: optional(SpeedSchema),
@@ -157,8 +129,6 @@ const SpeedsSchema = t.strict({
     burrow: optional(SpeedSchema),
     canHover: optional(t.boolean)
 });
-
-export type Speeds = t.TypeOf<typeof SpeedsSchema>;
 
 export const MonsterSchema = t.strict({
     name: t.string,
