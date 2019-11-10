@@ -1,6 +1,7 @@
 import { ArmorClass } from "./ArmorClass";
 import { MonsterType } from "./MonsterType";
 import { Size } from "./Size";
+import { Speed } from "./Speed";
 
 export function formatSize(size: Size): string {
     switch (size) {
@@ -25,4 +26,8 @@ export function formatType(type: MonsterType): string {
 
 export function formatArmorClasses(armorClass: ArmorClass[]): string {
     return armorClass.map(a => a.format()).join(" ");
+}
+
+export function formatMonsterSpeed(speeds: Speed[]) {
+    return speeds.map(s => s.format()).join(" ");
 }

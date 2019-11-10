@@ -1,6 +1,11 @@
 import React from "react";
 import { Monster } from "../models/Monster";
-import { formatArmorClasses, formatSize, formatType } from "../models/Monsters";
+import {
+    formatArmorClasses,
+    formatMonsterSpeed,
+    formatSize,
+    formatType
+} from "../models/Monsters";
 import { makeLine } from "../utils/Formatting";
 import { Definition } from "./Definition";
 import "./MonsterSheet.css";
@@ -24,6 +29,10 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
                 text={formatArmorClasses(monster.acs)}
             />
             <Definition label="Hit Points" text={monster.hp.format()} />
+            <Definition
+                label="Speed"
+                text={formatMonsterSpeed(monster.speeds)}
+            />
             <hr />
             <StatTable monster={monster} />
             <hr />
