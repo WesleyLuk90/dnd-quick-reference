@@ -4,7 +4,7 @@ import { formatDamageImmunities } from "../models/Monsters";
 import { Definition } from "./Definition";
 
 export function DamageImmunities({ monster }: { monster: Monster }) {
-    if (monster.damageImmunities.length == 0) {
+    if (monster.damageImmunities.length === 0) {
         return null;
     }
 

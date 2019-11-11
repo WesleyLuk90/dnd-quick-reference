@@ -30,6 +30,8 @@ export class Alignment {
             return `${names[this.alignment]} (${(this.chance * 100).toFixed(
                 0
             )}%)`;
+        } else {
+            return names[this.alignment];
         }
     }
 }
@@ -38,6 +40,7 @@ export class MonsterAlignment {
     constructor(readonly alignments: Alignment[], readonly special: string[]) {}
 
     format() {
+        console.log(this);
         const base = this.alignments.map(a => a.format()).join(" ");
         if (this.special.length > 0) {
             return `${base} (${this.special.join(", ")})`;
