@@ -4,10 +4,11 @@ import { Health } from "../models/Health";
 import { Monster } from "../models/Monster";
 import { MonsterData } from "../models/MonsterData";
 import { MonsterType, Tag } from "../models/MonsterType";
+import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
 import { SkillTypes } from "../models/SkillType";
 import { Speed, SpeedTypes } from "../models/Speed";
-import { Statistics } from "../models/Statistics";
+import { AbilityScores, Statistics } from "../models/Statistics";
 
 function toAC(ac: MonsterData["ac"]): ArmorClass[] {
     return ac.map(a => {
@@ -101,6 +102,20 @@ function toSpeeds(data: MonsterData["speed"]) {
     }).filter((s): s is Speed => s != null);
 }
 
+function toSavingThrows(data: MonsterData["save"]) {
+    if (data == null) {
+        return [];
+    }
+    return AbilityScores.map(s => {
+        const value = data[s];
+        if (value != null) {
+            return new SavingThrow(s, value);
+        } else {
+            return null;
+        }
+    }).filter((s): s is SavingThrow => s != null);
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -112,6 +127,7 @@ export function toMonster(data: MonsterData): Monster {
         toMonsterHealth(data.hp),
         toStatistics(data),
         toSkills(data.skill),
-        toSpeeds(data.speed)
+        toSpeeds(data.speed),
+        toSavingThrows(data.save)
     );
 }

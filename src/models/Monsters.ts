@@ -1,5 +1,6 @@
 import { ArmorClass } from "./ArmorClass";
 import { MonsterType } from "./MonsterType";
+import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
 import { Speed } from "./Speed";
 
@@ -30,4 +31,8 @@ export function formatArmorClasses(armorClass: ArmorClass[]): string {
 
 export function formatMonsterSpeed(speeds: Speed[]) {
     return speeds.map(s => s.format()).join(" ");
+}
+
+export function formatSavingThrows(savingThrows: SavingThrow[]) {
+    return savingThrows.map(s => s.format()).join(", ");
 }

@@ -68,6 +68,7 @@ export class MonsterService {
             }
             monsters.push({ ...found, ...m });
         });
+        console.log(monsters.find(m => m.name === "Claugiyliamatar"));
         let first = true;
         return monsters
             .map(m => {

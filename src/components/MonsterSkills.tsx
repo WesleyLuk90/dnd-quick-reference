@@ -10,7 +10,7 @@ export function MonsterSkills({ monster }: { monster: Monster }) {
     return (
         <Definition
             label="Skills"
-            text={skills.map(s => s.format()).join(" ")}
+            text={skills.map(s => s.format()).join(", ")}
         />
     );
 }

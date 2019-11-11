@@ -3,6 +3,7 @@ import { ArmorClass } from "./ArmorClass";
 import { Health } from "./Health";
 import { MonsterReference } from "./MonsterData";
 import { MonsterType } from "./MonsterType";
+import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
 import { Skill } from "./Skill";
 import { Speed } from "./Speed";
@@ -19,7 +20,8 @@ export class Monster {
         readonly hp: Health,
         readonly stats: Statistics,
         readonly skills: Skill[],
-        readonly speeds: Speed[]
+        readonly speeds: Speed[],
+        readonly savingThrows: SavingThrow[]
     ) {}
 
     is(reference: MonsterReference) {

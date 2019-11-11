@@ -5,7 +5,7 @@ import { MonsterCard } from "./components/MonsterCard";
 const App: React.FC = () => {
     return (
         <div>
-            <MonsterCard monster={{ name: "goblin" }} />
+            <MonsterCard monster={{ name: "Claugiyliamatar" }} />
         </div>
     );
 };

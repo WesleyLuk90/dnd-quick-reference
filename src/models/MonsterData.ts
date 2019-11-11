@@ -130,6 +130,15 @@ const SpeedsSchema = t.strict({
     canHover: optional(t.boolean)
 });
 
+const SavesSchema = t.strict({
+    str: optional(t.string),
+    dex: optional(t.string),
+    con: optional(t.string),
+    wis: optional(t.string),
+    int: optional(t.string),
+    cha: optional(t.string)
+});
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -145,7 +154,8 @@ export const MonsterSchema = t.strict({
     int: t.number,
     cha: t.number,
     skill: SkillsSchema,
-    speed: SpeedsSchema
+    speed: SpeedsSchema,
+    save: optional(SavesSchema)
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;
