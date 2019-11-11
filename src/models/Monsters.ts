@@ -1,4 +1,5 @@
 import { ArmorClass } from "./ArmorClass";
+import { DamageModifier } from "./DamageModifier";
 import { MonsterType } from "./MonsterType";
 import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
@@ -35,4 +36,8 @@ export function formatMonsterSpeed(speeds: Speed[]) {
 
 export function formatSavingThrows(savingThrows: SavingThrow[]) {
     return savingThrows.map(s => s.format()).join(", ");
+}
+
+export function formatDamageImmunities(damageModifiers: DamageModifier[]) {
+    return damageModifiers.map(s => s.format()).join(", ");
 }

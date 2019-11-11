@@ -7,7 +7,9 @@ import {
     formatType
 } from "../models/Monsters";
 import { makeLine } from "../utils/Formatting";
+import { DamageImmunities } from "./DamageImmunities";
 import { Definition } from "./Definition";
+import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
 import { StatTable } from "./StatTable";
@@ -36,7 +38,9 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <hr />
             <StatTable monster={monster} />
             <hr />
+            <MonsterSaves monster={monster} />
             <MonsterSkills monster={monster} />
+            <DamageImmunities monster={monster} />
         </div>
     );
 }

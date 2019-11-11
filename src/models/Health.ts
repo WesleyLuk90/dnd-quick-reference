@@ -6,7 +6,7 @@ export class Health {
     ) {}
 
     format() {
-        return `${this.average || ""} ${this.formula || ""} ${this.special ||
+        return `${this.average || ""} (${this.formula || ""}) ${this.special ||
             ""}`;
     }
 }

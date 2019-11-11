@@ -4,7 +4,7 @@ import { formatSavingThrows } from "../models/Monsters";
 import { Definition } from "./Definition";
 
 export function MonsterSaves({ monster }: { monster: Monster }) {
-    if (monster.savingThrows.length == 0) {
+    if (monster.savingThrows.length === 0) {
         return null;
     }
 

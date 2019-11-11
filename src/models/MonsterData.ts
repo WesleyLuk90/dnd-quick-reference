@@ -1,9 +1,16 @@
 import * as t from "io-ts";
 import { BaseAlignment } from "./Alignment";
+import { DamageType } from "./DamageType";
 import { Size } from "./Size";
 
 function optional<T extends t.Mixed>(type: T): t.UnionC<[T, t.UndefinedC]> {
     return t.union([type, t.undefined]);
+}
+
+function optionalWithNull<T extends t.Mixed>(
+    type: T
+): t.UnionC<[T, t.UndefinedC, t.NullC]> {
+    return t.union([type, t.undefined, t.null]);
 }
 
 const ComplexACSchema = t.strict({
@@ -139,6 +146,35 @@ const SavesSchema = t.strict({
     cha: optional(t.string)
 });
 
+const DamageTypeSchema = t.keyof({
+    [DamageType.POISON]: null,
+    [DamageType.PSYCHIC]: null,
+    [DamageType.FIRE]: null,
+    [DamageType.LIGHTNING]: null,
+    [DamageType.BLUDGEONING]: null,
+    [DamageType.PIERCING]: null,
+    [DamageType.SLASHING]: null,
+    [DamageType.COLD]: null,
+    [DamageType.NECROTIC]: null,
+    [DamageType.THUNDER]: null,
+    [DamageType.ACID]: null,
+    [DamageType.FORCE]: null,
+    [DamageType.RADIANT]: null
+});
+
+const DamageImmunitySchema = optionalWithNull(
+    t.array(
+        t.union([
+            DamageTypeSchema,
+            t.strict({
+                immune: t.array(DamageTypeSchema),
+                preNote: optional(t.string),
+                note: optional(t.string)
+            })
+        ])
+    )
+);
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -155,7 +191,8 @@ export const MonsterSchema = t.strict({
     cha: t.number,
     skill: SkillsSchema,
     speed: SpeedsSchema,
-    save: optional(SavesSchema)
+    save: optional(SavesSchema),
+    immune: DamageImmunitySchema
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;

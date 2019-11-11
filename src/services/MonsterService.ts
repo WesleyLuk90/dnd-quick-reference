@@ -69,6 +69,19 @@ export class MonsterService {
             monsters.push({ ...found, ...m });
         });
         console.log(monsters.find(m => m.name === "Claugiyliamatar"));
+        const found = new Set<string>();
+        monsters.forEach(m => {
+            if (m.immune != null) {
+                m.immune.forEach(i => {
+                    if (typeof i === "string") {
+                        found.add(i);
+                    } else {
+                        i.immune.forEach(j => found.add(j));
+                    }
+                });
+            }
+        });
+        console.log(found);
         let first = true;
         return monsters
             .map(m => {
