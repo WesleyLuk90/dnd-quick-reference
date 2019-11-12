@@ -71,13 +71,9 @@ export class MonsterService {
         console.log(monsters.find(m => m.name === "Claugiyliamatar"));
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.conditionImmune != null) {
-                m.conditionImmune.forEach(i => {
-                    if (typeof i === "string") {
-                        found.add(i);
-                    } else {
-                        i.conditionImmune.forEach(j => found.add(j));
-                    }
+            if (m.languages != null) {
+                m.languages.forEach(i => {
+                    found.add(i);
                 });
             }
         });

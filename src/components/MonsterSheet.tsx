@@ -5,10 +5,10 @@ import { makeLine } from "../utils/Formatting";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
 import { Definition } from "./Definition";
+import { ListDefinition } from "./ListDefinition";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
-import { Senses } from "./Senses";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
@@ -33,7 +33,8 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <MonsterSkills monster={monster} />
             <DamageImmunities monster={monster} />
             <ConditionImmunities monster={monster} />
-            <Senses monster={monster} />
+            <ListDefinition label="Senses" values={monster.senses} />
+            <ListDefinition label="Languages" values={monster.languages} />
         </div>
     );
 }

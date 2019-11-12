@@ -26,7 +26,8 @@ export class Monster {
         readonly savingThrows: SavingThrow[],
         readonly damageImmunities: DamageModifier[],
         readonly conditionImmunities: ConditionImmunity[],
-        readonly senses: string[]
+        readonly senses: string[],
+        readonly languages: string[]
     ) {}
 
     is(reference: MonsterReference) {

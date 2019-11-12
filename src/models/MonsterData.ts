@@ -222,7 +222,8 @@ export const MonsterSchema = t.strict({
     save: optional(SavesSchema),
     immune: DamageImmunitySchema,
     conditionImmune: ConditionImmunitySchema,
-    senses: optionalWithNull(t.array(t.string))
+    senses: optionalWithNull(t.array(t.string)),
+    languages: optionalWithNull(t.array(t.string))
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;
