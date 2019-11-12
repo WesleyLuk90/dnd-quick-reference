@@ -158,6 +158,7 @@ export function toMonster(data: MonsterData): Monster {
         toSpeeds(data.speed),
         toSavingThrows(data.save),
         toDamageImmunities(data.immune),
-        toConditionImmunities(data.conditionImmune)
+        toConditionImmunities(data.conditionImmune),
+        data.senses || []
     );
 }

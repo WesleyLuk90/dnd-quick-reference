@@ -8,6 +8,7 @@ import { Definition } from "./Definition";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
+import { Senses } from "./Senses";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
@@ -32,6 +33,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <MonsterSkills monster={monster} />
             <DamageImmunities monster={monster} />
             <ConditionImmunities monster={monster} />
+            <Senses monster={monster} />
         </div>
     );
 }
