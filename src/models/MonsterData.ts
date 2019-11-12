@@ -213,6 +213,43 @@ export const ChallengeRatingSchema = t.union([
     })
 ]);
 
+const SubEntrySchema = t.union([
+    t.string,
+    t.strict({
+        type: t.literal("link"),
+        href: t.strict({
+            type: t.literal("internal"),
+            path: t.literal("variantrules.html"),
+            hash: t.literal("madness_dmg")
+        }),
+        text: t.string
+    }),
+    t.strict({
+        type: t.literal("item"),
+        name: t.string,
+        entry: t.string
+    })
+]);
+
+const EntrySchema = t.union([
+    t.string,
+    t.strict({
+        type: t.literal("list"),
+        items: t.array(SubEntrySchema),
+        style: optional(t.literal("list-hang-notitle"))
+    }),
+    t.strict({
+        type: t.literal("inline"),
+        entries: t.array(SubEntrySchema)
+    })
+]);
+
+const TraitSchema = t.strict({
+    type: optional(t.keyof({ entries: null, inset: null })),
+    name: t.string,
+    entries: t.array(EntrySchema)
+});
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -234,7 +271,8 @@ export const MonsterSchema = t.strict({
     conditionImmune: ConditionImmunitySchema,
     senses: optionalWithNull(t.array(t.string)),
     languages: optionalWithNull(t.array(t.string)),
-    cr: ChallengeRatingSchema
+    cr: ChallengeRatingSchema,
+    trait: optionalWithNull(t.array(TraitSchema))
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;

@@ -98,6 +98,9 @@ export class MonsterService {
                         console.error("Found different keys", differentKeys);
                         console.log(result.right);
                         console.log(m);
+                        differentKeys.forEach(k =>
+                            console.log((result.right as any)[k], (m as any)[k])
+                        );
                         first = false;
                     }
                     return result.right;
