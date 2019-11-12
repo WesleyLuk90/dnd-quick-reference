@@ -71,12 +71,12 @@ export class MonsterService {
         console.log(monsters.find(m => m.name === "Claugiyliamatar"));
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.immune != null) {
-                m.immune.forEach(i => {
+            if (m.conditionImmune != null) {
+                m.conditionImmune.forEach(i => {
                     if (typeof i === "string") {
                         found.add(i);
                     } else {
-                        i.immune.forEach(j => found.add(j));
+                        i.conditionImmune.forEach(j => found.add(j));
                     }
                 });
             }
@@ -99,7 +99,7 @@ export class MonsterService {
                             )
                     );
                     if (differentKeys.length > 0 && first) {
-                        console.log(differentKeys);
+                        console.error("Found different keys", differentKeys);
                         console.log(result.right);
                         console.log(m);
                         first = false;

@@ -1,5 +1,6 @@
 import { MonsterAlignment } from "./Alignment";
 import { ArmorClass } from "./ArmorClass";
+import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
 import { Health } from "./Health";
 import { MonsterReference } from "./MonsterData";
@@ -23,7 +24,8 @@ export class Monster {
         readonly skills: Skill[],
         readonly speeds: Speed[],
         readonly savingThrows: SavingThrow[],
-        readonly damageImmunities: DamageModifier[]
+        readonly damageImmunities: DamageModifier[],
+        readonly conditionImmunities: ConditionImmunity[]
     ) {}
 
     is(reference: MonsterReference) {

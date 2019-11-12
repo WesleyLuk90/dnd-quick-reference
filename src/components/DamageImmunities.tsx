@@ -1,6 +1,6 @@
 import React from "react";
+import { defaultFormat } from "../models/Formatters";
 import { Monster } from "../models/Monster";
-import { formatDamageImmunities } from "../models/Monsters";
 import { Definition } from "./Definition";
 
 export function DamageImmunities({ monster }: { monster: Monster }) {
@@ -11,7 +11,7 @@ export function DamageImmunities({ monster }: { monster: Monster }) {
     return (
         <Definition
             label="Damage Immunities"
-            text={formatDamageImmunities(monster.damageImmunities)}
+            text={defaultFormat(monster.damageImmunities)}
         />
     );
 }

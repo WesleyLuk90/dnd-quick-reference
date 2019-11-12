@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { BaseAlignment } from "./Alignment";
+import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
 import { Size } from "./Size";
 
@@ -161,6 +162,21 @@ const DamageTypeSchema = t.keyof({
     [DamageType.FORCE]: null,
     [DamageType.RADIANT]: null
 });
+const ConditionSchema = t.keyof({
+    [Condition.BLINDED]: null,
+    [Condition.CHARMED]: null,
+    [Condition.DEAFENED]: null,
+    [Condition.EXHAUSTION]: null,
+    [Condition.FRIGHTENED]: null,
+    [Condition.PARALYZED]: null,
+    [Condition.PETRIFIED]: null,
+    [Condition.POISONED]: null,
+    [Condition.PRONE]: null,
+    [Condition.GRAPPLED]: null,
+    [Condition.RESTRAINED]: null,
+    [Condition.STUNNED]: null,
+    [Condition.UNCONSCIOUS]: null
+});
 
 const DamageImmunitySchema = optionalWithNull(
     t.array(
@@ -170,6 +186,18 @@ const DamageImmunitySchema = optionalWithNull(
                 immune: t.array(DamageTypeSchema),
                 preNote: optional(t.string),
                 note: optional(t.string)
+            })
+        ])
+    )
+);
+
+const ConditionImmunitySchema = optional(
+    t.array(
+        t.union([
+            ConditionSchema,
+            t.strict({
+                conditionImmune: t.array(ConditionSchema),
+                preNote: optional(t.string)
             })
         ])
     )
@@ -192,7 +220,8 @@ export const MonsterSchema = t.strict({
     skill: SkillsSchema,
     speed: SpeedsSchema,
     save: optional(SavesSchema),
-    immune: DamageImmunitySchema
+    immune: DamageImmunitySchema,
+    conditionImmune: ConditionImmunitySchema
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;

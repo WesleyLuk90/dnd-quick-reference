@@ -1,5 +1,6 @@
 import { Alignment, MonsterAlignment } from "../models/Alignment";
 import { ArmorClass } from "../models/ArmorClass";
+import { ConditionImmunity } from "../models/ConditionImmunity";
 import { DamageModifier } from "../models/DamageModifier";
 import { Health } from "../models/Health";
 import { Monster } from "../models/Monster";
@@ -130,6 +131,19 @@ function toDamageImmunities(data: MonsterData["immune"]) {
     });
 }
 
+function toConditionImmunities(data: MonsterData["conditionImmune"]) {
+    if (data == null) {
+        return [];
+    }
+    return data.map(c => {
+        if (typeof c === "string") {
+            return new ConditionImmunity([c], "");
+        } else {
+            return new ConditionImmunity(c.conditionImmune, c.preNote || "");
+        }
+    });
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -143,6 +157,7 @@ export function toMonster(data: MonsterData): Monster {
         toSkills(data.skill),
         toSpeeds(data.speed),
         toSavingThrows(data.save),
-        toDamageImmunities(data.immune)
+        toDamageImmunities(data.immune),
+        toConditionImmunities(data.conditionImmune)
     );
 }
