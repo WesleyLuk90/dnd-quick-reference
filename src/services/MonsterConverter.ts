@@ -2,7 +2,7 @@ import { Alignment, MonsterAlignment } from "../models/Alignment";
 import { ArmorClass } from "../models/ArmorClass";
 import { ConditionImmunity } from "../models/ConditionImmunity";
 import { DamageModifier } from "../models/DamageModifier";
-import { Health } from "../models/Health";
+import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { Monster } from "../models/Monster";
 import { MonsterData } from "../models/MonsterData";
 import { MonsterType, Tag } from "../models/MonsterType";
@@ -60,9 +60,9 @@ function toMonsterAlignment(data: MonsterData["alignment"]) {
 
 function toMonsterHealth(data: MonsterData["hp"]) {
     if ("special" in data) {
-        return new Health(null, null, data.special);
+        return new SpecialHealth(data.special);
     } else {
-        return new Health(data.average, data.formula, null);
+        return new DefaultHealth(data.average, data.formula);
     }
 }
 
