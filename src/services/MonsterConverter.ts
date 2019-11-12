@@ -1,5 +1,6 @@
 import { Alignment, MonsterAlignment } from "../models/Alignment";
 import { ArmorClass } from "../models/ArmorClass";
+import { ChallengeRating } from "../models/ChallengeRating";
 import { ConditionImmunity } from "../models/ConditionImmunity";
 import { DamageModifier } from "../models/DamageModifier";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
@@ -144,6 +145,16 @@ function toConditionImmunities(data: MonsterData["conditionImmune"]) {
     });
 }
 
+function toChallengeRating(data: MonsterData["cr"]) {
+    if (data == null) {
+        return null;
+    }
+    if (typeof data === "string") {
+        return new ChallengeRating(data, "", "");
+    }
+    return new ChallengeRating(data.cr, data.lair || "", data.coven || "");
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -160,6 +171,7 @@ export function toMonster(data: MonsterData): Monster {
         toDamageImmunities(data.immune),
         toConditionImmunities(data.conditionImmune),
         data.senses || [],
-        data.languages || []
+        data.languages || [],
+        toChallengeRating(data.cr)
     );
 }

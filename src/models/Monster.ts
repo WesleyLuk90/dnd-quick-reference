@@ -1,5 +1,6 @@
 import { MonsterAlignment } from "./Alignment";
 import { ArmorClass } from "./ArmorClass";
+import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
 import { Health } from "./Health";
@@ -27,7 +28,8 @@ export class Monster {
         readonly damageImmunities: DamageModifier[],
         readonly conditionImmunities: ConditionImmunity[],
         readonly senses: string[],
-        readonly languages: string[]
+        readonly languages: string[],
+        readonly challengeRating: ChallengeRating | null
     ) {}
 
     is(reference: MonsterReference) {

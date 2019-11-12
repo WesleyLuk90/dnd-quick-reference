@@ -25,3 +25,23 @@ export function formatType(type: MonsterType): string {
 export function defaultFormat<T extends { format(): string }>(ts: T[]): string {
     return ts.map(t => t.format()).join(", ");
 }
+
+export class Formatter {
+    static create(base: string) {
+        return new Formatter(base);
+    }
+    constructor(private base: string) {}
+
+    private conditions: string[] = [];
+
+    addCondition(value: string | null, format: (s: string) => string = s => s) {
+        if (value != null && value !== "") {
+            this.conditions.push(`${format(value)}`);
+        }
+        return this;
+    }
+
+    format() {
+        return [this.base, ...this.conditions].join(" ");
+    }
+}

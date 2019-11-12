@@ -2,6 +2,7 @@ import React from "react";
 import { defaultFormat, formatSize, formatType } from "../models/Formatters";
 import { Monster } from "../models/Monster";
 import { makeLine } from "../utils/Formatting";
+import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
 import { Definition } from "./Definition";
@@ -35,6 +36,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <ConditionImmunities monster={monster} />
             <ListDefinition label="Senses" values={monster.senses} />
             <ListDefinition label="Languages" values={monster.languages} />
+            <ChallengeRating monster={monster} />
         </div>
     );
 }

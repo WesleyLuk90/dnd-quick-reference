@@ -203,6 +203,16 @@ const ConditionImmunitySchema = optional(
     )
 );
 
+export const ChallengeRatingSchema = t.union([
+    t.undefined,
+    t.string,
+    t.strict({
+        cr: t.string,
+        lair: optional(t.string),
+        coven: optional(t.string)
+    })
+]);
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -223,7 +233,8 @@ export const MonsterSchema = t.strict({
     immune: DamageImmunitySchema,
     conditionImmune: ConditionImmunitySchema,
     senses: optionalWithNull(t.array(t.string)),
-    languages: optionalWithNull(t.array(t.string))
+    languages: optionalWithNull(t.array(t.string)),
+    cr: ChallengeRatingSchema
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;
