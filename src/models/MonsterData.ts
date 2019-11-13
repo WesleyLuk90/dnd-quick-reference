@@ -231,6 +231,8 @@ const SubEntrySchema = t.union([
     })
 ]);
 
+export type SubEntry = t.TypeOf<typeof SubEntrySchema>;
+
 const EntrySchema = t.union([
     t.string,
     t.strict({

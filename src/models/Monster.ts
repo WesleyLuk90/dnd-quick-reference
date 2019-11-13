@@ -11,6 +11,7 @@ import { Size } from "./Size";
 import { Skill } from "./Skill";
 import { Speed } from "./Speed";
 import { Statistics } from "./Statistics";
+import { Trait } from "./Trait";
 
 export class Monster {
     constructor(
@@ -29,7 +30,8 @@ export class Monster {
         readonly conditionImmunities: ConditionImmunity[],
         readonly senses: string[],
         readonly languages: string[],
-        readonly challengeRating: ChallengeRating | null
+        readonly challengeRating: ChallengeRating | null,
+        readonly traits: Trait[]
     ) {}
 
     is(reference: MonsterReference) {

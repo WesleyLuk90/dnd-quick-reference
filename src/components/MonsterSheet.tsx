@@ -10,6 +10,7 @@ import { ListDefinition } from "./ListDefinition";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
+import { MonsterTraits } from "./MonsterTraits";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
@@ -37,6 +38,8 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <ListDefinition label="Senses" values={monster.senses} />
             <ListDefinition label="Languages" values={monster.languages} />
             <ChallengeRating monster={monster} />
+            <hr />
+            <MonsterTraits monster={monster} />
         </div>
     );
 }

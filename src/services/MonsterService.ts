@@ -69,6 +69,28 @@ export class MonsterService {
             monsters.push({ ...found, ...m });
         });
         console.log(monsters.find(m => m.name === "Claugiyliamatar"));
+        console.log(
+            monsters.find(
+                m =>
+                    m.trait != null &&
+                    m.trait.some(t =>
+                        t.entries.some(
+                            e => typeof e !== "string" && e.type === "list"
+                        )
+                    )
+            )
+        );
+        console.log(
+            monsters.find(
+                m =>
+                    m.trait != null &&
+                    m.trait.some(t =>
+                        t.entries.some(
+                            e => typeof e !== "string" && e.type === "inline"
+                        )
+                    )
+            )
+        );
         const found = new Set<string>();
         monsters.forEach(m => {
             if (m.languages != null) {

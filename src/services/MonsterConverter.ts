@@ -5,13 +5,21 @@ import { ConditionImmunity } from "../models/ConditionImmunity";
 import { DamageModifier } from "../models/DamageModifier";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { Monster } from "../models/Monster";
-import { MonsterData } from "../models/MonsterData";
+import { MonsterData, SubEntry } from "../models/MonsterData";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
 import { SkillTypes } from "../models/SkillType";
 import { Speed, SpeedTypes } from "../models/Speed";
 import { AbilityScores, Statistics } from "../models/Statistics";
+import {
+    InlineContent,
+    LabeledContent,
+    LinkContent,
+    ListContent,
+    TextContent,
+    Trait
+} from "../models/Trait";
 
 function toAC(ac: MonsterData["ac"]): ArmorClass[] {
     return ac.map(a => {
@@ -155,6 +163,39 @@ function toChallengeRating(data: MonsterData["cr"]) {
     return new ChallengeRating(data.cr, data.lair || "", data.coven || "");
 }
 
+function toSubContent(subEntries: SubEntry[]) {
+    return subEntries.map(se => {
+        if (typeof se === "string") {
+            return new TextContent(se);
+        } else if (se.type === "link") {
+            return new LinkContent(se.text, se.href);
+        } else {
+            return new LabeledContent(se.name, se.entry);
+        }
+    });
+}
+
+function toTraits(data: MonsterData["trait"]) {
+    if (data == null) {
+        return [];
+    }
+    return data.map(
+        t =>
+            new Trait(
+                t.name,
+                t.entries.map(e => {
+                    if (typeof e === "string") {
+                        return new TextContent(e);
+                    } else if (e.type === "list") {
+                        return new ListContent(toSubContent(e.items));
+                    } else {
+                        return new InlineContent(toSubContent(e.entries));
+                    }
+                })
+            )
+    );
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -172,6 +213,7 @@ export function toMonster(data: MonsterData): Monster {
         toConditionImmunities(data.conditionImmune),
         data.senses || [],
         data.languages || [],
-        toChallengeRating(data.cr)
+        toChallengeRating(data.cr),
+        toTraits(data.trait)
     );
 }
