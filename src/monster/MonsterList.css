@@ -26,6 +26,10 @@
     background-color: #9dccf5;
 }
 
+.monster-list__item--selected {
+    background-color: #d4e5f3;
+}
+
 .monster-list__name {
     width: 40%;
 }

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Input } from "../components/Input";
 import { Scroller } from "../components/Scroller";
 import { Monster } from "../models/Monster";
 import { MonsterReference } from "../models/MonsterData";
 import { MonsterService } from "../services/MonsterService";
+import { BemBuilder } from "../utils/BemBuilder";
 import "./MonsterList.css";
 
 function href(ref: MonsterReference) {
@@ -13,34 +15,57 @@ function alphabetic(a: Monster, b: Monster) {
     return a.name.localeCompare(b.name);
 }
 
-export function MonsterList() {
+const BEM = new BemBuilder("monster-list");
+
+export function MonsterList({
+    selected
+}: {
+    selected: MonsterReference | null;
+}) {
     const [monsters, setMonsters] = useState<Monster[] | null>(null);
     useEffect(() => {
         MonsterService.all().then(setMonsters);
     }, []);
 
+    const [search, setSearch] = useState("");
+
     if (monsters == null) {
         return <span>Loading</span>;
     }
+
+    function filter(monster: Monster) {
+        if (search === "") {
+            return true;
+        }
+        return monster.name.toLocaleLowerCase().includes(search);
+    }
+
     return (
-        <div className="monster-list">
-            <div className="monster-list__list">
+        <div className={BEM.block}>
+            <div>
+                <Input value={search} onChange={setSearch} />
+            </div>
+            <div className={BEM.element("list")}>
                 <Scroller
-                    elements={monsters.sort(alphabetic)}
+                    elements={monsters.filter(filter).sort(alphabetic)}
                     render={m => (
                         <a
-                            className="monster-list__item"
+                            className={BEM.element(
+                                "item",
+                                "selected",
+                                selected != null && m.is(selected)
+                            )}
                             key={`${m.name} ${m.source}`}
                             href={href(m)}
                         >
-                            <div className="monster-list__name">{m.name}</div>
-                            <div className="monster-list__type">
+                            <div className={BEM.element("name")}>{m.name}</div>
+                            <div className={BEM.element("type")}>
                                 {m.type.format()}
                             </div>
-                            <div className="monster-list__cr">
+                            <div className={BEM.element("cr")}>
                                 {m.formatChallengeRating()}
                             </div>
-                            <div className="monster-list__source">
+                            <div className={BEM.element("source")}>
                                 {m.source}
                             </div>
                         </a>
