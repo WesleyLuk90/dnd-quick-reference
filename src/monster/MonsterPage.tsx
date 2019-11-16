@@ -1,23 +1,35 @@
 import React from "react";
 import { useLocation } from "react-router";
-import { MonsterCard } from "../components/MonsterCard";
+import { MonsterCard } from "./MonsterCard";
+import { MonsterList } from "./MonsterList";
+import "./MonsterPage.css";
 
-export function MonsterPage() {
+function MonsterCardSection() {
     const params = new URLSearchParams(useLocation().search);
     const name = params.get("name");
     if (name != null && name !== "") {
         const source = params.get("source");
         return (
-            <div>
-                <MonsterCard
-                    monster={{
-                        name: name,
-                        source: !!source ? source : undefined
-                    }}
-                />
-            </div>
+            <MonsterCard
+                monster={{
+                    name: name,
+                    source: !!source ? source : undefined
+                }}
+            />
         );
-    } else {
-        return <div>Foo</div>;
     }
+    return null;
+}
+
+export function MonsterPage() {
+    return (
+        <div className="monster-page">
+            <div className="monster-page__list">
+                <MonsterList />
+            </div>
+            <div className="monster-page__section">
+                <MonsterCardSection />
+            </div>
+        </div>
+    );
 }

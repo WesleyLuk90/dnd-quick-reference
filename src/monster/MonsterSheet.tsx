@@ -1,12 +1,12 @@
 import React from "react";
+import { Definition } from "../components/Definition";
+import { ListDefinition } from "../components/ListDefinition";
 import { defaultFormat, formatSize, formatType } from "../models/Formatters";
 import { Monster } from "../models/Monster";
 import { makeLine } from "../utils/Formatting";
 import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
-import { Definition } from "./Definition";
-import { ListDefinition } from "./ListDefinition";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";

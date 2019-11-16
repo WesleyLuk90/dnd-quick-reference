@@ -1,7 +1,7 @@
 import React from "react";
+import { Definition } from "../components/Definition";
 import { defaultFormat } from "../models/Formatters";
 import { Monster } from "../models/Monster";
-import { Definition } from "./Definition";
 
 export function MonsterSkills({ monster }: { monster: Monster }) {
     const { skills } = monster;

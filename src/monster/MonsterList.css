@@ -1,0 +1,23 @@
+.monster-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.monster-list__list {
+    overflow-y: scroll;
+    flex: 0 1 auto;
+}
+
+.monster-list__item {
+    display: block;
+    height: 32px;
+    display: flex;
+    align-content: center;
+    color: black;
+    text-decoration: none;
+}
+
+.monster-list__item + .monster-list__item {
+    border-top: solid 1px #aaa;
+}

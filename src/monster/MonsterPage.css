@@ -1,0 +1,14 @@
+.monster-page {
+    max-height: 100vh;
+    display: flex;
+}
+
+.monster-page__list {
+    width: 50%;
+    flex: 0 0 auto;
+}
+
+.monster-page__section {
+    width: 50%;
+    flex: 0 0 auto;
+}

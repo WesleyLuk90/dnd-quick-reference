@@ -1,0 +1,37 @@
+import React, { useEffect, useState } from "react";
+import { Monster } from "../models/Monster";
+import { MonsterReference } from "../models/MonsterData";
+import { MonsterService } from "../services/MonsterService";
+import "./MonsterList.css";
+
+function href(ref: MonsterReference) {
+    return `/#/monsters?name=${ref.name}&source=${ref.source || ""}`;
+}
+
+export function MonsterList() {
+    const [monsters, setMonsters] = useState<Monster[] | null>(null);
+
+    useEffect(() => {
+        MonsterService.all().then(setMonsters);
+    }, []);
+
+    if (monsters == null) {
+        return <span>Loading</span>;
+    }
+
+    return (
+        <div className="monster-list">
+            <div className="monster-list__list">
+                {monsters.map(m => (
+                    <a
+                        className="monster-list__item"
+                        key={`${m.name} ${m.source}`}
+                        href={href(m)}
+                    >
+                        {m.name}
+                    </a>
+                ))}
+            </div>
+        </div>
+    );
+}

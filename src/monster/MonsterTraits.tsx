@@ -1,8 +1,8 @@
 import React from "react";
+import { ContentDisplay } from "../components/ContentDisplay";
+import { Label } from "../components/Label";
 import { Monster } from "../models/Monster";
 import { Trait } from "../models/Trait";
-import { ContentDisplay } from "./ContentDisplay";
-import { Label } from "./Label";
 
 function MonsterTrait({ trait }: { trait: Trait }) {
     return (
