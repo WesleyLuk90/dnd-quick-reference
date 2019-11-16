@@ -5,8 +5,8 @@
 }
 
 .monster-list__list {
-    overflow-y: scroll;
     flex: 0 1 auto;
+    height: 100%;
 }
 
 .monster-list__item {
