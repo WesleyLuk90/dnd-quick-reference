@@ -21,7 +21,7 @@ export class LabeledContent {
     constructor(readonly label: string, readonly text: string) {}
 }
 
-type Content =
+export type Content =
     | TextContent
     | ListContent
     | InlineContent
@@ -29,5 +29,5 @@ type Content =
     | LabeledContent;
 
 export class Trait {
-    constructor(readonly name: string, readonly content: Content[]) {}
+    constructor(readonly name: string, readonly content: Content) {}
 }

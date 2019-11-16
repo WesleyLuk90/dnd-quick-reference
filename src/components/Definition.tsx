@@ -1,12 +1,11 @@
 import React from "react";
-import "./Definition.css";
+import { Label } from "./Label";
 import { LinkedText } from "./LinkedText";
 
 export function Definition({ label, text }: { label: string; text: string }) {
     return (
         <div>
-            <label className="definition__label">{label}</label>{" "}
-            <LinkedText text={text}></LinkedText>
+            <Label>{label}</Label> <LinkedText text={text}></LinkedText>
         </div>
     );
 }

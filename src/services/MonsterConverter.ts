@@ -183,15 +183,17 @@ function toTraits(data: MonsterData["trait"]) {
         t =>
             new Trait(
                 t.name,
-                t.entries.map(e => {
-                    if (typeof e === "string") {
-                        return new TextContent(e);
-                    } else if (e.type === "list") {
-                        return new ListContent(toSubContent(e.items));
-                    } else {
-                        return new InlineContent(toSubContent(e.entries));
-                    }
-                })
+                new InlineContent(
+                    t.entries.map(e => {
+                        if (typeof e === "string") {
+                            return new TextContent(e);
+                        } else if (e.type === "list") {
+                            return new ListContent(toSubContent(e.items));
+                        } else {
+                            return new InlineContent(toSubContent(e.entries));
+                        }
+                    })
+                )
             )
     );
 }
