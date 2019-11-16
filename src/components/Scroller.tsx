@@ -46,7 +46,7 @@ export function Scroller<T>({
     }
 
     const before = Math.floor(position.scrollDistance / elementHeight);
-    const count = Math.ceil(position.height / elementHeight);
+    const count = Math.ceil(position.height / elementHeight) + 1;
     const after = elements.length - before - count;
 
     return (
