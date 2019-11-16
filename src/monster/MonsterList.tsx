@@ -37,7 +37,9 @@ export function MonsterList({
         if (search === "") {
             return true;
         }
-        return monster.name.toLocaleLowerCase().includes(search);
+        return monster.name
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase());
     }
 
     return (
