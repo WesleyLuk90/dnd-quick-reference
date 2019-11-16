@@ -4,4 +4,8 @@ export class Tag {
 
 export class MonsterType {
     constructor(readonly type: string, tags: Tag[], swarmSize: string) {}
+
+    format() {
+        return this.type;
+    }
 }

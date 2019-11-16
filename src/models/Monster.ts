@@ -40,4 +40,11 @@ export class Monster {
             (reference.source == null || reference.source === this.source)
         );
     }
+
+    formatChallengeRating() {
+        if (this.challengeRating == null) {
+            return "";
+        }
+        return this.challengeRating.cr;
+    }
 }

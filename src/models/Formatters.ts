@@ -1,4 +1,3 @@
-import { MonsterType } from "./MonsterType";
 import { Size } from "./Size";
 
 export function formatSize(size: Size): string {
@@ -16,10 +15,6 @@ export function formatSize(size: Size): string {
         case Size.GIGANTIC:
             return "gigantic";
     }
-}
-
-export function formatType(type: MonsterType): string {
-    return type.type;
 }
 
 export function defaultFormat<T extends { format(): string }>(ts: T[]): string {

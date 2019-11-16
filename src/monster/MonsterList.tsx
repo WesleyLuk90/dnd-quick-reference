@@ -28,7 +28,14 @@ export function MonsterList() {
                         key={`${m.name} ${m.source}`}
                         href={href(m)}
                     >
-                        {m.name}
+                        <div className="monster-list__name">{m.name}</div>
+                        <div className="monster-list__type">
+                            {m.type.format()}
+                        </div>
+                        <div className="monster-list__cr">
+                            {m.formatChallengeRating()}
+                        </div>
+                        <div className="monster-list__source">{m.source}</div>
                     </a>
                 ))}
             </div>

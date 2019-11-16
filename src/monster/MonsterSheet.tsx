@@ -1,7 +1,7 @@
 import React from "react";
 import { Definition } from "../components/Definition";
 import { ListDefinition } from "../components/ListDefinition";
-import { defaultFormat, formatSize, formatType } from "../models/Formatters";
+import { defaultFormat, formatSize } from "../models/Formatters";
 import { Monster } from "../models/Monster";
 import { makeLine } from "../utils/Formatting";
 import { ChallengeRating } from "./ChallengeRating";
@@ -20,7 +20,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <p>
                 {makeLine(
                     formatSize(monster.size),
-                    formatType(monster.type) + ",",
+                    monster.type.format() + ",",
                     monster.alignment.format()
                 )}
             </p>
