@@ -8,6 +8,10 @@ function href(ref: MonsterReference) {
     return `/#/monsters?name=${ref.name}&source=${ref.source || ""}`;
 }
 
+function alphabetic(a: Monster, b: Monster) {
+    return a.name.localeCompare(b.name);
+}
+
 export function MonsterList() {
     const [monsters, setMonsters] = useState<Monster[] | null>(null);
 
@@ -22,7 +26,7 @@ export function MonsterList() {
     return (
         <div className="monster-list">
             <div className="monster-list__list">
-                {monsters.map(m => (
+                {monsters.sort(alphabetic).map(m => (
                     <a
                         className="monster-list__item"
                         key={`${m.name} ${m.source}`}
