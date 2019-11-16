@@ -3,6 +3,7 @@ import { BaseAlignment } from "./Alignment";
 import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
 import { Size } from "./Size";
+import { AbilityScore } from "./Statistics";
 
 function optional<T extends t.Mixed>(type: T): t.UnionC<[T, t.UndefinedC]> {
     return t.union([type, t.undefined]);
@@ -252,6 +253,56 @@ const TraitSchema = t.strict({
     entries: t.array(EntrySchema)
 });
 
+const AbilityScoresSchema = t.keyof({
+    [AbilityScore.STR]: null,
+    [AbilityScore.DEX]: null,
+    [AbilityScore.CON]: null,
+    [AbilityScore.WIS]: null,
+    [AbilityScore.INT]: null,
+    [AbilityScore.CHA]: null
+});
+
+const SpellReference = t.string;
+
+const SpellSchema = t.strict({
+    lower: optional(t.number),
+    slots: optional(t.number),
+    spells: t.array(SpellReference)
+});
+
+const SpellcastingSchema = t.strict({
+    name: t.string,
+    ability: optional(AbilityScoresSchema),
+    headerEntries: t.array(t.string),
+    footerEntries: optional(t.array(t.string)),
+    will: optional(t.array(SpellReference)),
+    hidden: optional(t.array(t.string)),
+    daily: optional(
+        t.strict({
+            "1e": optional(t.array(SpellReference)),
+            "2e": optional(t.array(SpellReference)),
+            "3e": optional(t.array(SpellReference)),
+            "1": optional(t.array(SpellReference)),
+            "2": optional(t.array(SpellReference)),
+            "3": optional(t.array(SpellReference))
+        })
+    ),
+    spells: optional(
+        t.strict({
+            "0": optional(SpellSchema),
+            "1": optional(SpellSchema),
+            "2": optional(SpellSchema),
+            "3": optional(SpellSchema),
+            "4": optional(SpellSchema),
+            "5": optional(SpellSchema),
+            "6": optional(SpellSchema),
+            "7": optional(SpellSchema),
+            "8": optional(SpellSchema),
+            "9": optional(SpellSchema)
+        })
+    )
+});
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -274,7 +325,8 @@ export const MonsterSchema = t.strict({
     senses: optionalWithNull(t.array(t.string)),
     languages: optionalWithNull(t.array(t.string)),
     cr: ChallengeRatingSchema,
-    trait: optionalWithNull(t.array(TraitSchema))
+    trait: optionalWithNull(t.array(TraitSchema)),
+    spellcasting: optionalWithNull(t.array(SpellcastingSchema))
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;
