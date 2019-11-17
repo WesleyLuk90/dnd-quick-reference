@@ -3,7 +3,15 @@ import { BaseAlignment } from "./Alignment";
 import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
 import { createEnum } from "./Enums";
-import { ActionTag, DamageTag, SenseTag, TraitTag } from "./MonsterTags";
+import {
+    ActionTag,
+    DamageTag,
+    LanguageTag,
+    MiscTag,
+    SenseTag,
+    SpellcastingTag,
+    TraitTag
+} from "./MonsterTags";
 import { Size } from "./Size";
 import { AbilityScore } from "./Statistics";
 
@@ -284,7 +292,13 @@ const TagSchema = t.strict({
     ),
     senseTags: optional(t.array(createEnum<SenseTag>(SenseTag, "SenseTag"))),
     traitTags: optional(t.array(createEnum<TraitTag>(TraitTag, "TraitTag"))),
-    languageTags: optional(t.array(t.string))
+    languageTags: optional(
+        t.array(createEnum<LanguageTag>(LanguageTag, "LanguageTag"))
+    ),
+    spellcastingTags: optional(
+        t.array(createEnum<SpellcastingTag>(SpellcastingTag, "SpellcastingTag"))
+    ),
+    miscTags: optional(t.array(createEnum<MiscTag>(MiscTag, "MiscTag")))
 });
 
 export const MonsterSchema = t.intersection([

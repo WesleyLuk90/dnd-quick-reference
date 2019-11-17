@@ -80,13 +80,23 @@ export class MonsterService {
         );
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.languageTags != null) {
-                m.languageTags.forEach(i => {
+            if (m.miscTags != null) {
+                m.miscTags.forEach(i => {
                     found.add(i);
                 });
             }
         });
-        console.log(found);
+        console.log(
+            `export enum Foo {${Array.from(found.values())
+                .map(
+                    v =>
+                        `${v
+                            .replace(/ /g, "_")
+                            .replace(/[^a-z]/gi, "")
+                            .toLocaleUpperCase()} = "${v}"`
+                )
+                .join(",\n")}}`
+        );
         const knownKeys = new Set<string>();
         const foundKeys = new Set<string>();
         let first = true;

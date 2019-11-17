@@ -73,6 +73,61 @@ export enum TraitTag {
     RAMPAGE = "Rampage"
 }
 
+export enum LanguageTag {
+    C = "C",
+    DR = "DR",
+    CS = "CS",
+    E = "E",
+    GO = "GO",
+    O = "O",
+    CE = "CE",
+    U = "U",
+    XX = "XX",
+    D = "D",
+    GI = "GI",
+    DU = "DU",
+    S = "S",
+    H = "H",
+    G = "G",
+    TC = "TC",
+    AB = "AB",
+    I = "I",
+    AQ = "AQ",
+    X = "X",
+    TP = "TP",
+    P = "P",
+    OTH = "OTH",
+    DS = "DS",
+    AU = "AU",
+    IG = "IG",
+    T = "T",
+    GTH = "GTH"
+}
+
+export enum SpellcastingTag {
+    CP = "CP",
+    CB = "CB",
+    I = "I",
+    CL = "CL",
+    CR = "CR",
+    CD = "CD",
+    P = "P",
+    CC = "CC",
+    CW = "CW",
+    CS = "CS",
+    S = "S",
+    F = "F"
+}
+
+export enum MiscTag {
+    MW = "MW",
+    RCH = "RCH",
+    AOE = "AOE",
+    RW = "RW",
+    RNG = "RNG",
+    THW = "THW"
+}
+
 export class MonsterTags {
     constructor(readonly actions: ActionTag[]) {}
 }
