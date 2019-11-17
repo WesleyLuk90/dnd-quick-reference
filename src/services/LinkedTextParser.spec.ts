@@ -12,5 +12,9 @@ describe("LinkedTextParser", () => {
             new Link(EntityType.item, "wat"),
             " other"
         ]);
+
+        expect(parseText("{@spell foo}")).toEqual([
+            new Link(EntityType.spell, "foo")
+        ]);
     });
 });

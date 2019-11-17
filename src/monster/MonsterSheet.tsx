@@ -10,6 +10,7 @@ import { DamageImmunities } from "./DamageImmunities";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
+import { MonsterSpells } from "./MonsterSpells";
 import { MonsterTraits } from "./MonsterTraits";
 import { StatTable } from "./StatTable";
 
@@ -40,6 +41,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <ChallengeRating monster={monster} />
             <hr />
             <MonsterTraits monster={monster} />
+            <MonsterSpells spellcasting={monster.spellcasting} />
         </div>
     );
 }

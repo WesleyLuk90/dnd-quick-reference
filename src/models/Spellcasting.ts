@@ -1,12 +1,26 @@
+import { ordinal } from "../utils/Ordinal";
+import { pluralize } from "../utils/Plural";
 import { AbilityScore } from "./Statistics";
 
 export class DailyLimit {
     constructor(readonly count: number) {}
+
+    format() {
+        return `${this.count}/day`;
+    }
 }
-export class NoLimit {}
+export class NoLimit {
+    format() {
+        return `At will`;
+    }
+}
 
 export class DailyEachLimit {
     constructor(readonly count: number) {}
+
+    format() {
+        return `${this.count}/day each`;
+    }
 }
 
 export class SpellSlotLimit {
@@ -15,6 +29,22 @@ export class SpellSlotLimit {
         readonly count: number | undefined,
         readonly lowerLevelRange?: number
     ) {}
+
+    format() {
+        const limit =
+            this.count != null
+                ? `${this.count} ${pluralize(this.count, "slot", "slots")}`
+                : "at will";
+        if (this.level === 0) {
+            return `Cantrips (${limit})`;
+        }
+        if (this.lowerLevelRange != null) {
+            return `${ordinal(this.lowerLevelRange)}-${ordinal(
+                this.level
+            )} level (${limit})`;
+        }
+        return `${ordinal(this.level)} level (${limit})`;
+    }
 }
 
 export type CastingLimit =
@@ -28,6 +58,10 @@ export class Spell {
         return spells.map(s => new Spell(s));
     }
     constructor(readonly spell: string) {}
+
+    format() {
+        return this.spell;
+    }
 }
 
 export class SpellGroup {

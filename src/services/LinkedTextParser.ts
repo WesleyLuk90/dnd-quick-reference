@@ -25,7 +25,10 @@ export function parseText(text: string): (string | Link)[] {
     let lastIndex = 0;
     while ((match = regex.exec(text))) {
         out.push(match[1]);
-        const link = toLink(match[2], match[3].split("|").map(s => s.trim()));
+        const link = toLink(
+            match[2],
+            match[3].split("|").map(s => s.trim())
+        );
         if (link != null) {
             out.push(link);
         } else {
@@ -48,6 +51,8 @@ function toLink(type: string, values: string[]) {
                 values[1],
                 values[2]
             );
+        case EntityType.spell:
+            return new Link(EntityType.spell, values[0], values[1], values[2]);
         default:
             return null;
     }
