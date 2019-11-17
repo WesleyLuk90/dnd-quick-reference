@@ -247,6 +247,8 @@ const EntrySchema = t.union([
     })
 ]);
 
+export type Entry = t.TypeOf<typeof EntrySchema>;
+
 const TraitSchema = t.strict({
     type: optional(t.keyof({ entries: null, inset: null })),
     name: t.string,
@@ -312,6 +314,11 @@ const SpellcastingSchema = t.strict({
     )
 });
 
+const ActionSchema = t.strict({
+    entries: t.array(EntrySchema),
+    name: t.string
+});
+
 export const MonsterSchema = t.strict({
     name: t.string,
     source: t.string,
@@ -335,7 +342,8 @@ export const MonsterSchema = t.strict({
     languages: optionalWithNull(t.array(t.string)),
     cr: ChallengeRatingSchema,
     trait: optionalWithNull(t.array(TraitSchema)),
-    spellcasting: optionalWithNull(t.array(SpellcastingSchema))
+    spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
+    action: optionalWithNull(t.array(ActionSchema))
 });
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;

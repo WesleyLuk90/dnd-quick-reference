@@ -1,5 +1,5 @@
 import { Content } from "./Content";
 
-export class Trait {
+export class Action {
     constructor(readonly name: string, readonly content: Content) {}
 }

@@ -1,11 +1,24 @@
+import { Action } from "../models/Action";
 import { Alignment, MonsterAlignment } from "../models/Alignment";
 import { ArmorClass } from "../models/ArmorClass";
 import { ChallengeRating } from "../models/ChallengeRating";
 import { ConditionImmunity } from "../models/ConditionImmunity";
+import {
+    InlineContent,
+    LabeledContent,
+    LinkContent,
+    ListContent,
+    TextContent
+} from "../models/Content";
 import { DamageModifier } from "../models/DamageModifier";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { Monster } from "../models/Monster";
-import { MonsterData, SpellSlotData, SubEntry } from "../models/MonsterData";
+import {
+    Entry,
+    MonsterData,
+    SpellSlotData,
+    SubEntry
+} from "../models/MonsterData";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
@@ -22,14 +35,7 @@ import {
     SpellSlotLimit
 } from "../models/Spellcasting";
 import { AbilityScores, Statistics } from "../models/Statistics";
-import {
-    InlineContent,
-    LabeledContent,
-    LinkContent,
-    ListContent,
-    TextContent,
-    Trait
-} from "../models/Trait";
+import { Trait } from "../models/Trait";
 
 function toAC(ac: MonsterData["ac"]): ArmorClass[] {
     return ac.map(a => {
@@ -189,23 +195,7 @@ function toTraits(data: MonsterData["trait"]) {
     if (data == null) {
         return [];
     }
-    return data.map(
-        t =>
-            new Trait(
-                t.name,
-                new InlineContent(
-                    t.entries.map(e => {
-                        if (typeof e === "string") {
-                            return new TextContent(e);
-                        } else if (e.type === "list") {
-                            return new ListContent(toSubContent(e.items));
-                        } else {
-                            return new InlineContent(toSubContent(e.entries));
-                        }
-                    })
-                )
-            )
-    );
+    return data.map(trait => new Trait(trait.name, toContent(trait.entries)));
 }
 
 function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
@@ -280,6 +270,29 @@ function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
     });
 }
 
+function toContent(entries: Entry[]) {
+    return new InlineContent(
+        entries.map(e => {
+            if (typeof e === "string") {
+                return new TextContent(e);
+            } else if (e.type === "list") {
+                return new ListContent(toSubContent(e.items));
+            } else {
+                return new InlineContent(toSubContent(e.entries));
+            }
+        })
+    );
+}
+
+function toActions(data: MonsterData["action"]): Action[] {
+    if (data == null) {
+        return [];
+    }
+    return data.map(
+        action => new Action(action.name, toContent(action.entries))
+    );
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -299,6 +312,7 @@ export function toMonster(data: MonsterData): Monster {
         data.languages || [],
         toChallengeRating(data.cr),
         toTraits(data.trait),
-        toSpellcasting(data.spellcasting)
+        toSpellcasting(data.spellcasting),
+        toActions(data.action)
     );
 }

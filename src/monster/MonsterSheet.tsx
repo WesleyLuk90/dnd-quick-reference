@@ -7,6 +7,7 @@ import { makeLine } from "../utils/Formatting";
 import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
+import { MonsterActions } from "./MonsterActions";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
@@ -42,6 +43,8 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <hr />
             <MonsterTraits monster={monster} />
             <MonsterSpells spellcasting={monster.spellcasting} />
+            <hr />
+            <MonsterActions monster={monster} />
         </div>
     );
 }

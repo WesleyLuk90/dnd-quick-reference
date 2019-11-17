@@ -6,7 +6,7 @@ import {
     LinkContent,
     ListContent,
     TextContent
-} from "../models/Trait";
+} from "../models/Content";
 import { assertNever } from "../utils/Never";
 import { Label } from "./Label";
 

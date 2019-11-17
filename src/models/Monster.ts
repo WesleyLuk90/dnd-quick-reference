@@ -1,3 +1,4 @@
+import { Action } from "./Action";
 import { MonsterAlignment } from "./Alignment";
 import { ArmorClass } from "./ArmorClass";
 import { ChallengeRating } from "./ChallengeRating";
@@ -33,7 +34,8 @@ export class Monster {
         readonly languages: string[],
         readonly challengeRating: ChallengeRating | null,
         readonly traits: Trait[],
-        readonly spellcasting: Spellcasting[]
+        readonly spellcasting: Spellcasting[],
+        readonly actions: Action[]
     ) {}
 
     is(reference: MonsterReference) {
