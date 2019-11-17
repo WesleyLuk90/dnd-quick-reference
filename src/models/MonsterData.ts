@@ -270,13 +270,22 @@ const SpellSchema = t.strict({
     spells: t.array(SpellReference)
 });
 
+export type SpellSlotData = t.TypeOf<typeof SpellSchema>;
+
 const SpellcastingSchema = t.strict({
     name: t.string,
     ability: optional(AbilityScoresSchema),
     headerEntries: t.array(t.string),
     footerEntries: optional(t.array(t.string)),
     will: optional(t.array(SpellReference)),
-    hidden: optional(t.array(t.string)),
+    hidden: optional(
+        t.array(
+            t.keyof({
+                daily: null,
+                will: null
+            })
+        )
+    ),
     daily: optional(
         t.strict({
             "1e": optional(t.array(SpellReference)),

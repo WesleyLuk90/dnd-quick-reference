@@ -10,6 +10,7 @@ import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
 import { Skill } from "./Skill";
 import { Speed } from "./Speed";
+import { Spellcasting } from "./Spellcasting";
 import { Statistics } from "./Statistics";
 import { Trait } from "./Trait";
 
@@ -31,7 +32,8 @@ export class Monster {
         readonly senses: string[],
         readonly languages: string[],
         readonly challengeRating: ChallengeRating | null,
-        readonly traits: Trait[]
+        readonly traits: Trait[],
+        readonly spellcasting: Spellcasting[]
     ) {}
 
     is(reference: MonsterReference) {

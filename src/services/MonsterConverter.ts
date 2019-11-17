@@ -5,12 +5,22 @@ import { ConditionImmunity } from "../models/ConditionImmunity";
 import { DamageModifier } from "../models/DamageModifier";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { Monster } from "../models/Monster";
-import { MonsterData, SubEntry } from "../models/MonsterData";
+import { MonsterData, SpellSlotData, SubEntry } from "../models/MonsterData";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
 import { SkillTypes } from "../models/SkillType";
 import { Speed, SpeedTypes } from "../models/Speed";
+import {
+    CastingLimit,
+    DailyEachLimit,
+    DailyLimit,
+    NoLimit,
+    Spell,
+    Spellcasting,
+    SpellGroup,
+    SpellSlotLimit
+} from "../models/Spellcasting";
 import { AbilityScores, Statistics } from "../models/Statistics";
 import {
     InlineContent,
@@ -198,6 +208,78 @@ function toTraits(data: MonsterData["trait"]) {
     );
 }
 
+function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
+    if (data == null) {
+        return [];
+    }
+    return data.map(d => {
+        const groups: SpellGroup[] = [];
+        if (d.will != null) {
+            groups.push(
+                new SpellGroup(
+                    Spell.fromList(d.will),
+                    new NoLimit(),
+                    d.hidden != null && d.hidden.includes("will")
+                )
+            );
+        }
+        function addDaily(e: string[] | undefined, limit: CastingLimit) {
+            if (e == null) {
+                return;
+            }
+            groups.push(
+                new SpellGroup(
+                    Spell.fromList(e),
+                    limit,
+                    d.hidden != null && d.hidden.includes("daily")
+                )
+            );
+        }
+        if (d.daily != null) {
+            addDaily(d.daily["1e"], new DailyEachLimit(1));
+            addDaily(d.daily["2e"], new DailyEachLimit(1));
+            addDaily(d.daily["3e"], new DailyEachLimit(1));
+            addDaily(d.daily["1"], new DailyLimit(1));
+            addDaily(d.daily["2"], new DailyLimit(1));
+            addDaily(d.daily["3"], new DailyLimit(1));
+        }
+        function addSpellSlot(
+            data: SpellSlotData | undefined,
+            slotLevel: number
+        ) {
+            if (data == null) {
+                return;
+            }
+            groups.push(
+                new SpellGroup(
+                    Spell.fromList(data.spells),
+                    new SpellSlotLimit(slotLevel, data.slots, data.lower),
+                    false
+                )
+            );
+        }
+        if (d.spells != null) {
+            addSpellSlot(d.spells["0"], 0);
+            addSpellSlot(d.spells["1"], 1);
+            addSpellSlot(d.spells["2"], 2);
+            addSpellSlot(d.spells["3"], 3);
+            addSpellSlot(d.spells["4"], 4);
+            addSpellSlot(d.spells["5"], 5);
+            addSpellSlot(d.spells["6"], 6);
+            addSpellSlot(d.spells["7"], 7);
+            addSpellSlot(d.spells["8"], 8);
+            addSpellSlot(d.spells["9"], 9);
+        }
+        return new Spellcasting(
+            d.name,
+            d.ability || null,
+            d.headerEntries,
+            d.footerEntries || [],
+            groups
+        );
+    });
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -216,6 +298,7 @@ export function toMonster(data: MonsterData): Monster {
         data.senses || [],
         data.languages || [],
         toChallengeRating(data.cr),
-        toTraits(data.trait)
+        toTraits(data.trait),
+        toSpellcasting(data.spellcasting)
     );
 }

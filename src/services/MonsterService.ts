@@ -70,32 +70,19 @@ export class MonsterService {
         });
         console.log(monsters.find(m => m.name === "Claugiyliamatar"));
         console.log(
-            monsters.find(
+            monsters.filter(
                 m =>
-                    m.trait != null &&
-                    m.trait.some(t =>
-                        t.entries.some(
-                            e => typeof e !== "string" && e.type === "list"
-                        )
-                    )
-            )
-        );
-        console.log(
-            monsters.find(
-                m =>
-                    m.trait != null &&
-                    m.trait.some(t =>
-                        t.entries.some(
-                            e => typeof e !== "string" && e.type === "inline"
-                        )
-                    )
+                    m.spellcasting != null &&
+                    m.spellcasting.some(s => s.spells != null)
             )
         );
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.languages != null) {
-                m.languages.forEach(i => {
-                    found.add(i);
+            if (m.spellcasting != null) {
+                m.spellcasting.forEach(i => {
+                    if (i.hidden != null) {
+                        i.hidden.forEach(k => found.add(k));
+                    }
                 });
             }
         });
