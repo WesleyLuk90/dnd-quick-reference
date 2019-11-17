@@ -23,25 +23,30 @@
 }
 
 .monster-list__item:hover {
-    background-color: #9dccf5;
+    background-color: rgba(0, 0, 0, 0.075);
+    color: inherit;
 }
 
 .monster-list__item--selected {
-    background-color: #d4e5f3;
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
 .monster-list__name {
     width: 40%;
+    padding: 3px 5px;
 }
 
 .monster-list__type {
-    width: 40%;
+    width: 35%;
+    padding: 3px 5px;
 }
 
 .monster-list__cr {
     width: 10%;
+    padding: 3px 5px;
 }
 
 .monster-list__source {
-    width: 10%;
+    width: 15%;
+    padding: 3px 5px;
 }
