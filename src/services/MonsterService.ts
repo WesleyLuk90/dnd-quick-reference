@@ -10,6 +10,7 @@ import {
     MonsterReference,
     MonsterSchema
 } from "../models/MonsterData";
+import { DamageTag } from "../models/MonsterTags";
 import { HttpService } from "./HttpService";
 import { toMonster } from "./MonsterConverter";
 
@@ -68,27 +69,28 @@ export class MonsterService {
             }
             monsters.push({ ...found, ...m });
         });
-        console.log(monsters.find(m => m.name === "Claugiyliamatar"));
         console.log(
             monsters.filter(
                 m =>
-                    m.spellcasting != null &&
-                    m.spellcasting.some(s => s.spells != null)
+                    m.damageTags != null &&
+                    m.damageTags.includes(DamageTag.PIERCING) &&
+                    !m.damageTags.includes(DamageTag.PSYCHIC) &&
+                    !m.damageTags.includes(DamageTag.POISON)
             )
         );
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.spellcasting != null) {
-                m.spellcasting.forEach(i => {
-                    if (i.hidden != null) {
-                        i.hidden.forEach(k => found.add(k));
-                    }
+            if (m.languageTags != null) {
+                m.languageTags.forEach(i => {
+                    found.add(i);
                 });
             }
         });
         console.log(found);
+        const knownKeys = new Set<string>();
+        const foundKeys = new Set<string>();
         let first = true;
-        return monsters
+        const mon = monsters
             .map(m => {
                 const result = MonsterSchema.decode(m);
                 if (isLeft(result)) {
@@ -96,6 +98,8 @@ export class MonsterService {
                     console.log(PathReporter.report(result).join("\n"));
                     return m;
                 } else {
+                    Object.keys(m).forEach(k => knownKeys.add(k));
+                    Object.keys(result.right).forEach(k => foundKeys.add(k));
                     const differentKeys = Object.keys(result.right).filter(
                         key =>
                             !isEqual(
@@ -116,6 +120,9 @@ export class MonsterService {
                 }
             })
             .map(toMonster);
+        foundKeys.forEach(k => knownKeys.delete(k));
+        console.log(knownKeys);
+        return mon;
     }
 
     static async get(ref: MonsterReference): Promise<Monster> {

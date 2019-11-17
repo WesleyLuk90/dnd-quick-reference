@@ -2,6 +2,8 @@ import * as t from "io-ts";
 import { BaseAlignment } from "./Alignment";
 import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
+import { createEnum } from "./Enums";
+import { ActionTag, DamageTag, SenseTag, TraitTag } from "./MonsterTags";
 import { Size } from "./Size";
 import { AbilityScore } from "./Statistics";
 
@@ -24,14 +26,7 @@ const ComplexACSchema = t.strict({
 
 const ACSchema = t.union([t.number, ComplexACSchema]);
 
-const SizeSchema = t.union([
-    t.literal(Size.TINY),
-    t.literal(Size.SMALL),
-    t.literal(Size.MEDIUM),
-    t.literal(Size.LARGE),
-    t.literal(Size.HUGE),
-    t.literal(Size.GIGANTIC)
-]);
+const SizeSchema = createEnum<Size>(Size, "Size");
 
 const TypeTag = t.union([
     t.string,
@@ -50,17 +45,10 @@ const TypeSchema = t.union([
     })
 ]);
 
-const AlignmentsSchema = t.union([
-    t.literal(BaseAlignment.LAWFUL),
-    t.literal(BaseAlignment.NEUTRAL),
-    t.literal(BaseAlignment.NEUTRAL_X),
-    t.literal(BaseAlignment.NEUTRAL_Y),
-    t.literal(BaseAlignment.CHAOTIC),
-    t.literal(BaseAlignment.GOOD),
-    t.literal(BaseAlignment.EVIL),
-    t.literal(BaseAlignment.UNALIGNED),
-    t.literal(BaseAlignment.ANY)
-]);
+const AlignmentsSchema = createEnum<BaseAlignment>(
+    BaseAlignment,
+    "BaseAlignment"
+);
 
 const ComplexAlignment = t.strict({
     alignment: t.array(AlignmentsSchema),
@@ -148,36 +136,8 @@ const SavesSchema = t.strict({
     cha: optional(t.string)
 });
 
-const DamageTypeSchema = t.keyof({
-    [DamageType.POISON]: null,
-    [DamageType.PSYCHIC]: null,
-    [DamageType.FIRE]: null,
-    [DamageType.LIGHTNING]: null,
-    [DamageType.BLUDGEONING]: null,
-    [DamageType.PIERCING]: null,
-    [DamageType.SLASHING]: null,
-    [DamageType.COLD]: null,
-    [DamageType.NECROTIC]: null,
-    [DamageType.THUNDER]: null,
-    [DamageType.ACID]: null,
-    [DamageType.FORCE]: null,
-    [DamageType.RADIANT]: null
-});
-const ConditionSchema = t.keyof({
-    [Condition.BLINDED]: null,
-    [Condition.CHARMED]: null,
-    [Condition.DEAFENED]: null,
-    [Condition.EXHAUSTION]: null,
-    [Condition.FRIGHTENED]: null,
-    [Condition.PARALYZED]: null,
-    [Condition.PETRIFIED]: null,
-    [Condition.POISONED]: null,
-    [Condition.PRONE]: null,
-    [Condition.GRAPPLED]: null,
-    [Condition.RESTRAINED]: null,
-    [Condition.STUNNED]: null,
-    [Condition.UNCONSCIOUS]: null
-});
+const DamageTypeSchema = createEnum<DamageType>(DamageType, "DamageType");
+const ConditionSchema = createEnum<Condition>(Condition, "Condition");
 
 const DamageImmunitySchema = optionalWithNull(
     t.array(
@@ -255,14 +215,10 @@ const TraitSchema = t.strict({
     entries: t.array(EntrySchema)
 });
 
-const AbilityScoresSchema = t.keyof({
-    [AbilityScore.STR]: null,
-    [AbilityScore.DEX]: null,
-    [AbilityScore.CON]: null,
-    [AbilityScore.WIS]: null,
-    [AbilityScore.INT]: null,
-    [AbilityScore.CHA]: null
-});
+const AbilityScoresSchema = createEnum<AbilityScore>(
+    AbilityScore,
+    "AbilityScore"
+);
 
 const SpellReference = t.string;
 
@@ -319,32 +275,47 @@ const ActionSchema = t.strict({
     name: t.string
 });
 
-export const MonsterSchema = t.strict({
-    name: t.string,
-    source: t.string,
-    ac: t.array(ACSchema),
-    size: SizeSchema,
-    type: TypeSchema,
-    alignment: AlignmentSchema,
-    hp: HealthSchema,
-    str: t.number,
-    dex: t.number,
-    con: t.number,
-    wis: t.number,
-    int: t.number,
-    cha: t.number,
-    skill: SkillsSchema,
-    speed: SpeedsSchema,
-    save: optional(SavesSchema),
-    immune: DamageImmunitySchema,
-    conditionImmune: ConditionImmunitySchema,
-    senses: optionalWithNull(t.array(t.string)),
-    languages: optionalWithNull(t.array(t.string)),
-    cr: ChallengeRatingSchema,
-    trait: optionalWithNull(t.array(TraitSchema)),
-    spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
-    action: optionalWithNull(t.array(ActionSchema))
+const TagSchema = t.strict({
+    actionTags: optional(
+        t.array(createEnum<ActionTag>(ActionTag, "ActionTag"))
+    ),
+    damageTags: optional(
+        t.array(createEnum<DamageTag>(DamageTag, "DamageTag"))
+    ),
+    senseTags: optional(t.array(createEnum<SenseTag>(SenseTag, "SenseTag"))),
+    traitTags: optional(t.array(createEnum<TraitTag>(TraitTag, "TraitTag"))),
+    languageTags: optional(t.array(t.string))
 });
+
+export const MonsterSchema = t.intersection([
+    t.strict({
+        name: t.string,
+        source: t.string,
+        ac: t.array(ACSchema),
+        size: SizeSchema,
+        type: TypeSchema,
+        alignment: AlignmentSchema,
+        hp: HealthSchema,
+        str: t.number,
+        dex: t.number,
+        con: t.number,
+        wis: t.number,
+        int: t.number,
+        cha: t.number,
+        skill: SkillsSchema,
+        speed: SpeedsSchema,
+        save: optional(SavesSchema),
+        immune: DamageImmunitySchema,
+        conditionImmune: ConditionImmunitySchema,
+        senses: optionalWithNull(t.array(t.string)),
+        languages: optionalWithNull(t.array(t.string)),
+        cr: ChallengeRatingSchema,
+        trait: optionalWithNull(t.array(TraitSchema)),
+        spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
+        action: optionalWithNull(t.array(ActionSchema))
+    }),
+    TagSchema
+]);
 
 export type MonsterData = t.TypeOf<typeof MonsterSchema>;
 
