@@ -19,6 +19,7 @@ import {
     SpellSlotData,
     SubEntry
 } from "../models/MonsterData";
+import { MonsterTags } from "../models/MonsterTags";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
@@ -293,6 +294,18 @@ function toActions(data: MonsterData["action"]): Action[] {
     );
 }
 
+function toTags(data: MonsterData): MonsterTags {
+    return new MonsterTags(
+        data.actionTags || [],
+        data.damageTags || [],
+        data.languageTags || [],
+        data.miscTags || [],
+        data.senseTags || [],
+        data.spellcastingTags || [],
+        data.traitTags || []
+    );
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -313,6 +326,8 @@ export function toMonster(data: MonsterData): Monster {
         toChallengeRating(data.cr),
         toTraits(data.trait),
         toSpellcasting(data.spellcasting),
-        toActions(data.action)
+        toActions(data.action),
+        data.page || null,
+        toTags(data)
     );
 }

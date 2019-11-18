@@ -129,5 +129,13 @@ export enum MiscTag {
 }
 
 export class MonsterTags {
-    constructor(readonly actions: ActionTag[]) {}
+    constructor(
+        readonly actions: ActionTag[],
+        readonly damageTags: DamageTag[],
+        readonly languageTags: LanguageTag[],
+        readonly miscTags: MiscTag[],
+        readonly senseTags: SenseTag[],
+        readonly spellcastingTags: SpellcastingTag[],
+        readonly traitTag: TraitTag[]
+    ) {}
 }

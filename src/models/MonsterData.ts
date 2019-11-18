@@ -326,7 +326,8 @@ export const MonsterSchema = t.intersection([
         cr: ChallengeRatingSchema,
         trait: optionalWithNull(t.array(TraitSchema)),
         spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
-        action: optionalWithNull(t.array(ActionSchema))
+        action: optionalWithNull(t.array(ActionSchema)),
+        page: optional(t.number)
     }),
     TagSchema
 ]);

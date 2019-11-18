@@ -6,6 +6,7 @@ import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
 import { Health } from "./Health";
 import { MonsterReference } from "./MonsterData";
+import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
 import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
@@ -35,7 +36,9 @@ export class Monster {
         readonly challengeRating: ChallengeRating | null,
         readonly traits: Trait[],
         readonly spellcasting: Spellcasting[],
-        readonly actions: Action[]
+        readonly actions: Action[],
+        readonly page: number | null,
+        readonly tags: MonsterTags
     ) {}
 
     is(reference: MonsterReference) {
