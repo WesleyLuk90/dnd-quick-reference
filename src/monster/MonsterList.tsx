@@ -45,7 +45,11 @@ export function MonsterList({
     return (
         <div className={BEM.block}>
             <div>
-                <Input value={search} onChange={setSearch} />
+                <Input
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Search"
+                />
             </div>
             <div className={BEM.element("list")}>
                 <Scroller

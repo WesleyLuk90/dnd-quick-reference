@@ -301,6 +301,27 @@ const TagSchema = t.strict({
     miscTags: optional(t.array(createEnum<MiscTag>(MiscTag, "MiscTag")))
 });
 
+type Resist =
+    | DamageType
+    | {
+          resist: Resist[];
+          preNote: string | undefined;
+          note: string | undefined;
+      }
+    | { special: string };
+
+const ResistSchema: t.Type<Resist> = t.recursion("Resist", () =>
+    t.union([
+        DamageTypeSchema,
+        t.strict({
+            resist: t.array(ResistSchema),
+            preNote: optional(t.string),
+            note: optional(t.string)
+        }),
+        t.strict({ special: t.string })
+    ])
+);
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -320,6 +341,7 @@ export const MonsterSchema = t.intersection([
         speed: SpeedsSchema,
         save: optional(SavesSchema),
         immune: DamageImmunitySchema,
+        resist: optionalWithNull(t.array(ResistSchema)),
         conditionImmune: ConditionImmunitySchema,
         senses: optionalWithNull(t.array(t.string)),
         languages: optionalWithNull(t.array(t.string)),
