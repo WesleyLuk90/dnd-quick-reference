@@ -390,6 +390,7 @@ export function toMonster(data: MonsterData): Monster {
                   data.legendaryGroup.name,
                   data.legendaryGroup.source
               )
-            : null
+            : null,
+        data.isNpc === true
     );
 }

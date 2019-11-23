@@ -46,7 +46,8 @@ export class Monster {
         readonly passivePerception: number | null,
         readonly reactions: Reaction[],
         readonly legendaryActions: LegendaryAction[],
-        readonly legendaryGroup: LegendaryGroup | null
+        readonly legendaryGroup: LegendaryGroup | null,
+        readonly isNpc: boolean
     ) {}
 
     is(reference: MonsterReference) {

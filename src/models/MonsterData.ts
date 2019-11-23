@@ -356,7 +356,8 @@ export const MonsterSchema = t.intersection([
         legendary: optional(t.array(LegendaryActionSchema)),
         legendaryGroup: optional(LegendaryGroupSchema),
         page: optional(t.number),
-        passive: optional(t.number)
+        passive: optional(t.number),
+        isNpc: optional(t.boolean)
     }),
     TagSchema
 ]);
