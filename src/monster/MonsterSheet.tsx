@@ -8,6 +8,7 @@ import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
 import { DamageResistances } from "./DamageResistances";
+import { LegendaryActions } from "./LegendaryActions";
 import { MonsterActions } from "./MonsterActions";
 import { MonsterReactions } from "./MonsterReactions";
 import { MonsterSaves } from "./MonsterSaves";
@@ -58,6 +59,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <hr />
             <MonsterActions monster={monster} />
             <MonsterReactions monster={monster} />
+            <LegendaryActions monster={monster} />
         </div>
     );
 }

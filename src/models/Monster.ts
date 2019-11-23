@@ -5,6 +5,7 @@ import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
 import { Health } from "./Health";
+import { LegendaryAction } from "./LegendaryAction";
 import { MonsterReference } from "./MonsterData";
 import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
@@ -42,7 +43,8 @@ export class Monster {
         readonly page: number | null,
         readonly tags: MonsterTags,
         readonly passivePerception: number | null,
-        readonly reactions: Reaction[]
+        readonly reactions: Reaction[],
+        readonly legendaryActions: LegendaryAction[]
     ) {}
 
     is(reference: MonsterReference) {

@@ -274,11 +274,6 @@ const SpellcastingSchema = t.strict({
     )
 });
 
-const ActionSchema = t.strict({
-    entries: t.array(EntrySchema),
-    name: t.string
-});
-
 const TagSchema = t.strict({
     actionTags: optional(
         t.array(createEnum<ActionTag>(ActionTag, "ActionTag"))
@@ -315,7 +310,12 @@ const ResistSchema = t.union([
     t.strict({ special: t.string })
 ]);
 
-export const ReactionSchema = t.strict({
+export const LegendaryActionSchema = t.strict({
+    name: optional(t.string),
+    entries: t.array(EntrySchema)
+});
+
+export const ActionLikeSchema = t.strict({
     name: t.string,
     entries: t.array(EntrySchema)
 });
@@ -346,10 +346,11 @@ export const MonsterSchema = t.intersection([
         cr: ChallengeRatingSchema,
         trait: optionalWithNull(t.array(TraitSchema)),
         spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
-        action: optionalWithNull(t.array(ActionSchema)),
+        action: optionalWithNull(t.array(ActionLikeSchema)),
+        reaction: optional(t.array(ActionLikeSchema)),
+        legendary: optional(t.array(LegendaryActionSchema)),
         page: optional(t.number),
-        passive: optional(t.number),
-        reaction: optional(t.array(ReactionSchema))
+        passive: optional(t.number)
     }),
     TagSchema
 ]);
