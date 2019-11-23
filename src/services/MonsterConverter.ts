@@ -14,6 +14,7 @@ import { DamageModifier } from "../models/DamageModifier";
 import { DamageType } from "../models/DamageType";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { LegendaryAction } from "../models/LegendaryAction";
+import { LegendaryGroup } from "../models/LegendaryGroup";
 import { Monster } from "../models/Monster";
 import {
     Entry,
@@ -383,6 +384,12 @@ export function toMonster(data: MonsterData): Monster {
         toTags(data),
         data.passive || null,
         toReactions(data.reaction),
-        toLegendaryActions(data.legendary)
+        toLegendaryActions(data.legendary),
+        data.legendaryGroup != null
+            ? new LegendaryGroup(
+                  data.legendaryGroup.name,
+                  data.legendaryGroup.source
+              )
+            : null
     );
 }

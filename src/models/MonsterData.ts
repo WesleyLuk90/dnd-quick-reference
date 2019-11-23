@@ -320,6 +320,11 @@ export const ActionLikeSchema = t.strict({
     entries: t.array(EntrySchema)
 });
 
+export const LegendaryGroupSchema = t.strict({
+    name: t.string,
+    source: t.string
+});
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -349,6 +354,7 @@ export const MonsterSchema = t.intersection([
         action: optionalWithNull(t.array(ActionLikeSchema)),
         reaction: optional(t.array(ActionLikeSchema)),
         legendary: optional(t.array(LegendaryActionSchema)),
+        legendaryGroup: optional(LegendaryGroupSchema),
         page: optional(t.number),
         passive: optional(t.number)
     }),

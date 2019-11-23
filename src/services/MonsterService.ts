@@ -10,7 +10,6 @@ import {
     MonsterReference,
     MonsterSchema
 } from "../models/MonsterData";
-import { DamageTag } from "../models/MonsterTags";
 import { HttpService } from "./HttpService";
 import { toMonster } from "./MonsterConverter";
 
@@ -69,21 +68,10 @@ export class MonsterService {
             }
             monsters.push({ ...found, ...m });
         });
-        console.log(
-            monsters.filter(
-                m =>
-                    m.damageTags != null &&
-                    m.damageTags.includes(DamageTag.PIERCING) &&
-                    !m.damageTags.includes(DamageTag.PSYCHIC) &&
-                    !m.damageTags.includes(DamageTag.POISON)
-            )
-        );
         const found = new Set<string>();
         monsters.forEach(m => {
-            if (m.miscTags != null) {
-                m.miscTags.forEach(i => {
-                    found.add(i);
-                });
+            if (m.legendaryGroup != null) {
+                found.add(m.legendaryGroup.name);
             }
         });
         console.log(
