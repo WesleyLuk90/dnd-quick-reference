@@ -359,6 +359,7 @@ export function toMonster(data: MonsterData): Monster {
         toSpellcasting(data.spellcasting),
         toActions(data.action),
         data.page || null,
-        toTags(data)
+        toTags(data),
+        data.passive || null
     );
 }

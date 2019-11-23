@@ -342,7 +342,8 @@ export const MonsterSchema = t.intersection([
         trait: optionalWithNull(t.array(TraitSchema)),
         spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
         action: optionalWithNull(t.array(ActionSchema)),
-        page: optional(t.number)
+        page: optional(t.number),
+        passive: optional(t.number)
     }),
     TagSchema
 ]);

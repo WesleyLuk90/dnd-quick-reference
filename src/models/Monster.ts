@@ -39,7 +39,8 @@ export class Monster {
         readonly spellcasting: Spellcasting[],
         readonly actions: Action[],
         readonly page: number | null,
-        readonly tags: MonsterTags
+        readonly tags: MonsterTags,
+        readonly passivePerception: number | null
     ) {}
 
     is(reference: MonsterReference) {

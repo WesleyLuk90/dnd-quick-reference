@@ -40,7 +40,15 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <DamageResistances monster={monster} />
             <DamageImmunities monster={monster} />
             <ConditionImmunities monster={monster} />
-            <ListDefinition label="Senses" values={monster.senses} />
+            <ListDefinition
+                label="Senses"
+                values={monster.senses}
+                suffix={
+                    monster.passivePerception
+                        ? `Passive Perception ${monster.passivePerception}`
+                        : null
+                }
+            />
             <ListDefinition label="Languages" values={monster.languages} />
             <ChallengeRating monster={monster} />
             <hr />
