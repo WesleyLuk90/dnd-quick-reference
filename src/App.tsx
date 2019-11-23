@@ -6,16 +6,16 @@ import { MonsterPage } from "./monster/MonsterPage";
 
 const App: React.FC = () => {
     return (
-        <div className="container-fluid">
-            <Router>
+        <Router>
+            <div className="container-fluid app">
                 <Navigation />
                 <Switch>
                     <Route path="/monsters">
                         <MonsterPage />
                     </Route>
                 </Switch>
-            </Router>
-        </div>
+            </div>
+        </Router>
     );
 };
 

@@ -22,15 +22,6 @@
     border-top: solid 1px #aaa;
 }
 
-.monster-list__item:hover {
-    background-color: rgba(0, 0, 0, 0.075);
-    color: inherit;
-}
-
-.monster-list__item--selected {
-    background-color: rgba(0, 0, 0, 0.03);
-}
-
 .monster-list__name {
     width: 40%;
     padding: 3px 5px;

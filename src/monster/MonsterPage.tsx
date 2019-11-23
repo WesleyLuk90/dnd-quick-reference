@@ -20,11 +20,11 @@ function useSelectedMonster() {
 export function MonsterPage() {
     const selected = useSelectedMonster();
     return (
-        <div className="monster-page">
-            <div className="monster-page__list">
+        <div className="row monster-page">
+            <div className="col monster-page__list">
                 <MonsterList selected={selected} />
             </div>
-            <div className="monster-page__section">
+            <div className="col">
                 {selected && <MonsterCard monster={selected} />}
             </div>
         </div>

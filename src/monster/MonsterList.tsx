@@ -5,6 +5,7 @@ import { Monster } from "../models/Monster";
 import { MonsterReference } from "../models/MonsterData";
 import { MonsterService } from "../services/MonsterService";
 import { BemBuilder } from "../utils/BemBuilder";
+import { classNames } from "./Classnames";
 import "./MonsterList.css";
 
 function href(ref: MonsterReference) {
@@ -42,6 +43,10 @@ export function MonsterList({
             .includes(search.toLocaleLowerCase());
     }
 
+    function isSelected(monster: Monster) {
+        return selected != null && monster.is(selected);
+    }
+
     return (
         <div className={BEM.block}>
             <div>
@@ -56,11 +61,10 @@ export function MonsterList({
                     elements={monsters.filter(filter).sort(alphabetic)}
                     render={m => (
                         <a
-                            className={BEM.element(
-                                "item",
-                                "selected",
-                                selected != null && m.is(selected)
-                            )}
+                            className={classNames(BEM.element("item"), {
+                                "bg-primary text-white": isSelected(m),
+                                "bg-light": !isSelected(m)
+                            })}
                             key={`${m.name} ${m.source}`}
                             href={href(m)}
                         >
