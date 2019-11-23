@@ -22,6 +22,7 @@ export function Navigation() {
         <nav className={`nav ${BEM.block}`}>
             {ITEMS.map(i => (
                 <NavLink
+                    key={i.path}
                     to={i.path}
                     className="nav-link"
                     activeClassName="border-bottom border-primary"
