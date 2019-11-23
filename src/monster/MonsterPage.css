@@ -3,6 +3,7 @@
     padding-bottom: 10px;
 }
 
-.monster-page__list {
+.monster-page__list,
+.monster-page__card {
     height: 100%;
 }

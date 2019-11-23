@@ -24,7 +24,7 @@ export function MonsterPage() {
             <div className="col monster-page__list">
                 <MonsterList selected={selected} />
             </div>
-            <div className="col">
+            <div className="col monster-page__card">
                 {selected && <MonsterCard monster={selected} />}
             </div>
         </div>
