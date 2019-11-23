@@ -310,20 +310,25 @@ const ResistSchema = t.union([
     t.strict({ special: t.string })
 ]);
 
-export const LegendaryActionSchema = t.strict({
+const LegendaryActionSchema = t.strict({
     name: optional(t.string),
     entries: t.array(EntrySchema)
 });
 
-export const ActionLikeSchema = t.strict({
+const ActionLikeSchema = t.strict({
     name: t.string,
     entries: t.array(EntrySchema)
 });
 
-export const LegendaryGroupSchema = t.strict({
+const LegendaryGroupSchema = t.strict({
     name: t.string,
     source: t.string
 });
+
+const VulnerableSchema = t.union([
+    DamageTypeSchema,
+    t.strict({ vulnerable: t.array(DamageTypeSchema), note: t.string })
+]);
 
 export const MonsterSchema = t.intersection([
     t.strict({
@@ -357,7 +362,8 @@ export const MonsterSchema = t.intersection([
         legendaryGroup: optional(LegendaryGroupSchema),
         page: optional(t.number),
         passive: optional(t.number),
-        isNpc: optional(t.boolean)
+        isNpc: optional(t.boolean),
+        vulnerable: optional(t.array(VulnerableSchema))
     }),
     TagSchema
 ]);

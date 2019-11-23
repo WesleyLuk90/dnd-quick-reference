@@ -358,6 +358,19 @@ function toDamageResistances(data: MonsterData["resist"]): DamageModifier[] {
     });
 }
 
+function toVulnerabilities(data: MonsterData["vulnerable"]): DamageModifier[] {
+    if (data == null) {
+        return [];
+    }
+    return data.map(r => {
+        if (typeof r === "string") {
+            return new DamageModifier([r], "", "");
+        } else {
+            return new DamageModifier(r.vulnerable, r.note, "");
+        }
+    });
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -391,6 +404,7 @@ export function toMonster(data: MonsterData): Monster {
                   data.legendaryGroup.source
               )
             : null,
-        data.isNpc === true
+        data.isNpc === true,
+        toVulnerabilities(data.vulnerable)
     );
 }

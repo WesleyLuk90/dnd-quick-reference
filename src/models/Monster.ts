@@ -47,7 +47,8 @@ export class Monster {
         readonly reactions: Reaction[],
         readonly legendaryActions: LegendaryAction[],
         readonly legendaryGroup: LegendaryGroup | null,
-        readonly isNpc: boolean
+        readonly isNpc: boolean,
+        readonly vulnerabilities: DamageModifier[]
     ) {}
 
     is(reference: MonsterReference) {

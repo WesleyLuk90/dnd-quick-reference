@@ -8,6 +8,7 @@ import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
 import { DamageResistances } from "./DamageResistances";
+import { DamageVulnerabilities } from "./DamageVulnerabilities";
 import { LegendaryActions } from "./LegendaryActions";
 import { MonsterActions } from "./MonsterActions";
 import { MonsterReactions } from "./MonsterReactions";
@@ -41,6 +42,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <MonsterSkills monster={monster} />
             <DamageResistances monster={monster} />
             <DamageImmunities monster={monster} />
+            <DamageVulnerabilities monster={monster} />
             <ConditionImmunities monster={monster} />
             <ListDefinition
                 label="Senses"
