@@ -1,11 +1,13 @@
+import { TextBuilder } from "../utils/TextBuilder";
 import { Condition } from "./Condition";
 
 export class ConditionImmunity {
     constructor(readonly conditions: Condition[], readonly preNote: string) {}
 
     format() {
-        const preNote = this.preNote !== "" ? `${this.preNote}` : "";
-
-        return `${this.conditions.join(", ")} ${preNote}`;
+        return new TextBuilder()
+            .add(this.preNote)
+            .list(this.conditions)
+            .build();
     }
 }

@@ -11,6 +11,7 @@ import {
     TextContent
 } from "../models/Content";
 import { DamageModifier } from "../models/DamageModifier";
+import { DamageType } from "../models/DamageType";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { Monster } from "../models/Monster";
 import {
@@ -306,6 +307,35 @@ function toTags(data: MonsterData): MonsterTags {
     );
 }
 
+function toDamageResistances(data: MonsterData["resist"]): DamageModifier[] {
+    if (data == null) {
+        return [];
+    }
+    return data.map(r => {
+        if (typeof r === "string") {
+            return new DamageModifier([r], "", "");
+        } else if ("special" in r) {
+            return new DamageModifier([], r.special, "");
+        } else {
+            const special = r.resist
+                .filter(
+                    (r): r is { resist: DamageType[]; note: string } =>
+                        typeof r !== "string"
+                )
+                .map(r => ({
+                    damageTypes: r.resist,
+                    condition: r.note
+                }));
+            return new DamageModifier(
+                r.resist.filter((r): r is DamageType => typeof r === "string"),
+                r.note || "",
+                r.preNote || "",
+                special
+            );
+        }
+    });
+}
+
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
@@ -320,6 +350,7 @@ export function toMonster(data: MonsterData): Monster {
         toSpeeds(data.speed),
         toSavingThrows(data.save),
         toDamageImmunities(data.immune),
+        toDamageResistances(data.resist),
         toConditionImmunities(data.conditionImmune),
         data.senses || [],
         data.languages || [],

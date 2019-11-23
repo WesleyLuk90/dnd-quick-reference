@@ -147,18 +147,14 @@ const SavesSchema = t.strict({
 const DamageTypeSchema = createEnum<DamageType>(DamageType, "DamageType");
 const ConditionSchema = createEnum<Condition>(Condition, "Condition");
 
-const DamageImmunitySchema = optionalWithNull(
-    t.array(
-        t.union([
-            DamageTypeSchema,
-            t.strict({
-                immune: t.array(DamageTypeSchema),
-                preNote: optional(t.string),
-                note: optional(t.string)
-            })
-        ])
-    )
-);
+const DamageImmunitySchema = t.union([
+    DamageTypeSchema,
+    t.strict({
+        immune: t.array(DamageTypeSchema),
+        preNote: optional(t.string),
+        note: optional(t.string)
+    })
+]);
 
 const ConditionImmunitySchema = optional(
     t.array(
@@ -301,26 +297,23 @@ const TagSchema = t.strict({
     miscTags: optional(t.array(createEnum<MiscTag>(MiscTag, "MiscTag")))
 });
 
-type Resist =
-    | DamageType
-    | {
-          resist: Resist[];
-          preNote: string | undefined;
-          note: string | undefined;
-      }
-    | { special: string };
-
-const ResistSchema: t.Type<Resist> = t.recursion("Resist", () =>
-    t.union([
-        DamageTypeSchema,
-        t.strict({
-            resist: t.array(ResistSchema),
-            preNote: optional(t.string),
-            note: optional(t.string)
-        }),
-        t.strict({ special: t.string })
-    ])
-);
+const ResistSchema = t.union([
+    DamageTypeSchema,
+    t.strict({
+        resist: t.array(
+            t.union([
+                DamageTypeSchema,
+                t.strict({
+                    resist: t.array(DamageTypeSchema),
+                    note: t.string
+                })
+            ])
+        ),
+        preNote: optional(t.string),
+        note: optional(t.string)
+    }),
+    t.strict({ special: t.string })
+]);
 
 export const MonsterSchema = t.intersection([
     t.strict({
@@ -340,7 +333,7 @@ export const MonsterSchema = t.intersection([
         skill: SkillsSchema,
         speed: SpeedsSchema,
         save: optional(SavesSchema),
-        immune: DamageImmunitySchema,
+        immune: optionalWithNull(t.array(DamageImmunitySchema)),
         resist: optionalWithNull(t.array(ResistSchema)),
         conditionImmune: ConditionImmunitySchema,
         senses: optionalWithNull(t.array(t.string)),

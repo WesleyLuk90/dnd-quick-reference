@@ -7,6 +7,7 @@ import { makeLine } from "../utils/Formatting";
 import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
+import { DamageResistances } from "./DamageResistances";
 import { MonsterActions } from "./MonsterActions";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
@@ -16,6 +17,7 @@ import { MonsterTraits } from "./MonsterTraits";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
+    console.log(monster);
     return (
         <div>
             <h2>{monster.name}</h2>
@@ -35,6 +37,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <hr />
             <MonsterSaves monster={monster} />
             <MonsterSkills monster={monster} />
+            <DamageResistances monster={monster} />
             <DamageImmunities monster={monster} />
             <ConditionImmunities monster={monster} />
             <ListDefinition label="Senses" values={monster.senses} />

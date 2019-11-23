@@ -30,6 +30,7 @@ export class Monster {
         readonly speeds: Speed[],
         readonly savingThrows: SavingThrow[],
         readonly damageImmunities: DamageModifier[],
+        readonly damageResistance: DamageModifier[],
         readonly conditionImmunities: ConditionImmunity[],
         readonly senses: string[],
         readonly languages: string[],
