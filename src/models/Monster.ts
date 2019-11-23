@@ -8,6 +8,7 @@ import { Health } from "./Health";
 import { MonsterReference } from "./MonsterData";
 import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
+import { Reaction } from "./Reaction";
 import { SavingThrow } from "./SavingThrow";
 import { Size } from "./Size";
 import { Skill } from "./Skill";
@@ -40,7 +41,8 @@ export class Monster {
         readonly actions: Action[],
         readonly page: number | null,
         readonly tags: MonsterTags,
-        readonly passivePerception: number | null
+        readonly passivePerception: number | null,
+        readonly reactions: Reaction[]
     ) {}
 
     is(reference: MonsterReference) {

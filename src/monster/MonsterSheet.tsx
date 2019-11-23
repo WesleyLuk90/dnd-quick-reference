@@ -9,6 +9,7 @@ import { ConditionImmunities } from "./ConditionImmunities";
 import { DamageImmunities } from "./DamageImmunities";
 import { DamageResistances } from "./DamageResistances";
 import { MonsterActions } from "./MonsterActions";
+import { MonsterReactions } from "./MonsterReactions";
 import { MonsterSaves } from "./MonsterSaves";
 import "./MonsterSheet.css";
 import { MonsterSkills } from "./MonsterSkills";
@@ -56,6 +57,7 @@ export function MonsterSheet({ monster }: { monster: Monster }) {
             <MonsterSpells spellcasting={monster.spellcasting} />
             <hr />
             <MonsterActions monster={monster} />
+            <MonsterReactions monster={monster} />
         </div>
     );
 }

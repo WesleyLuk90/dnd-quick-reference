@@ -14,8 +14,12 @@ function MonsterAction({ action }: { action: Action }) {
 }
 
 export function MonsterActions({ monster }: { monster: Monster }) {
+    if (monster.actions.length === 0) {
+        return null;
+    }
     return (
         <>
+            <h3>Actions</h3>
             {monster.actions.map((a, i) => (
                 <MonsterAction key={i} action={a} />
             ))}

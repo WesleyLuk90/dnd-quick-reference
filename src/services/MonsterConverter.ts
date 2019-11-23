@@ -22,6 +22,7 @@ import {
 } from "../models/MonsterData";
 import { MonsterTags } from "../models/MonsterTags";
 import { MonsterType, Tag } from "../models/MonsterType";
+import { Reaction } from "../models/Reaction";
 import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
 import { SkillTypes } from "../models/SkillType";
@@ -295,6 +296,15 @@ function toActions(data: MonsterData["action"]): Action[] {
     );
 }
 
+function toReactions(data: MonsterData["reaction"]): Reaction[] {
+    if (data == null) {
+        return [];
+    }
+    return data.map(
+        reaction => new Reaction(reaction.name, toContent(reaction.entries))
+    );
+}
+
 function toTags(data: MonsterData): MonsterTags {
     return new MonsterTags(
         data.actionTags || [],
@@ -360,6 +370,7 @@ export function toMonster(data: MonsterData): Monster {
         toActions(data.action),
         data.page || null,
         toTags(data),
-        data.passive || null
+        data.passive || null,
+        toReactions(data.reaction)
     );
 }

@@ -315,6 +315,11 @@ const ResistSchema = t.union([
     t.strict({ special: t.string })
 ]);
 
+export const ReactionSchema = t.strict({
+    name: t.string,
+    entries: t.array(EntrySchema)
+});
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -343,7 +348,8 @@ export const MonsterSchema = t.intersection([
         spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
         action: optionalWithNull(t.array(ActionSchema)),
         page: optional(t.number),
-        passive: optional(t.number)
+        passive: optional(t.number),
+        reaction: optional(t.array(ReactionSchema))
     }),
     TagSchema
 ]);
