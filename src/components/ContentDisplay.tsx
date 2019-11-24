@@ -9,10 +9,11 @@ import {
 } from "../models/Content";
 import { assertNever } from "../utils/Never";
 import { Label } from "./Label";
+import { LinkedText } from "./LinkedText";
 
 export function ContentDisplay({ content }: { content: Content }) {
     if (content instanceof TextContent) {
-        return <span>{content.description}</span>;
+        return <LinkedText text={content.description} />;
     } else if (content instanceof ListContent) {
         return (
             <ul>
@@ -38,7 +39,8 @@ export function ContentDisplay({ content }: { content: Content }) {
     } else if (content instanceof LabeledContent) {
         return (
             <span>
-                <Label>{content.label}</Label> {content.label}
+                <Label>{content.label}</Label>{" "}
+                <LinkedText text={content.text} />
             </span>
         );
     }

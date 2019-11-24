@@ -1,5 +1,8 @@
 export enum EntityType {
     item = "item",
     monster = "monster",
-    spell = "spell"
+    creature = "creature",
+    spell = "spell",
+    condition = "condition",
+    skill = "skill"
 }

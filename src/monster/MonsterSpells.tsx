@@ -1,5 +1,6 @@
 import React from "react";
 import { Label } from "../components/Label";
+import { LinkedText } from "../components/LinkedText";
 import { Spellcasting } from "../models/Spellcasting";
 import { SpellGroupDisplay } from "./SpellGroupDisplay";
 
@@ -15,11 +16,12 @@ export function MonsterSpells({
         <div>
             {spellcasting.map(s => (
                 <div key={s.name}>
-                    <Label>{s.name}</Label> <span>{s.header.join(" ")}</span>
+                    <Label>{s.name}</Label>{" "}
+                    <LinkedText text={s.header.join(" ")} />
                     {s.spellGroups.map((g, i) => (
                         <SpellGroupDisplay key={i} group={g} />
                     ))}
-                    <span>{s.footer.join(" ")}</span>
+                    <LinkedText text={s.footer.join(" ")} />
                 </div>
             ))}
         </div>

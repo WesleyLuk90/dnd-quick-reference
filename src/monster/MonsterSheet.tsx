@@ -20,7 +20,6 @@ import { MonsterTraits } from "./MonsterTraits";
 import { StatTable } from "./StatTable";
 
 export function MonsterSheet({ monster }: { monster: Monster }) {
-    console.log(monster);
     return (
         <div>
             <h2>{monster.name}</h2>
