@@ -16,19 +16,21 @@ import {
 import { Size } from "./Size";
 import { AbilityScore } from "./Statistics";
 
-function optional<T extends t.Mixed>(type: T): t.UnionC<[T, t.UndefinedC]> {
-    return t.union([type, t.undefined]);
-}
-
-function optionalWithNull<T extends t.Mixed>(
+function optional<T extends t.Mixed>(
     type: T
 ): t.UnionC<[T, t.UndefinedC, t.NullC]> {
     return t.union([type, t.undefined, t.null]);
 }
 
+function optionalArray<T extends t.Mixed>(
+    type: T
+): t.UnionC<[t.ArrayC<T>, t.UndefinedC, t.NullC]> {
+    return optional(t.array(type));
+}
+
 const ComplexACSchema = t.strict({
     ac: t.number,
-    from: optional(t.array(t.string)),
+    from: optionalArray(t.string),
     condition: optional(t.string),
     braces: optional(t.boolean)
 });
@@ -49,7 +51,7 @@ const TypeSchema = t.union([
     t.string,
     t.strict({
         type: t.string,
-        tags: optional(t.array(TypeTag)),
+        tags: optionalArray(TypeTag),
         swarmSize: optional(t.string)
     })
 ]);
@@ -239,8 +241,8 @@ const SpellcastingSchema = t.strict({
     name: t.string,
     ability: optional(AbilityScoresSchema),
     headerEntries: t.array(t.string),
-    footerEntries: optional(t.array(t.string)),
-    will: optional(t.array(SpellReference)),
+    footerEntries: optionalArray(t.string),
+    will: optionalArray(SpellReference),
     hidden: optional(
         t.array(
             t.keyof({
@@ -251,12 +253,12 @@ const SpellcastingSchema = t.strict({
     ),
     daily: optional(
         t.strict({
-            "1e": optional(t.array(SpellReference)),
-            "2e": optional(t.array(SpellReference)),
-            "3e": optional(t.array(SpellReference)),
-            "1": optional(t.array(SpellReference)),
-            "2": optional(t.array(SpellReference)),
-            "3": optional(t.array(SpellReference))
+            "1e": optionalArray(SpellReference),
+            "2e": optionalArray(SpellReference),
+            "3e": optionalArray(SpellReference),
+            "1": optionalArray(SpellReference),
+            "2": optionalArray(SpellReference),
+            "3": optionalArray(SpellReference)
         })
     ),
     spells: optional(
@@ -282,15 +284,15 @@ const TagSchema = t.strict({
     damageTags: optional(
         t.array(createEnum<DamageTag>(DamageTag, "DamageTag"))
     ),
-    senseTags: optional(t.array(createEnum<SenseTag>(SenseTag, "SenseTag"))),
-    traitTags: optional(t.array(createEnum<TraitTag>(TraitTag, "TraitTag"))),
+    senseTags: optionalArray(createEnum<SenseTag>(SenseTag, "SenseTag")),
+    traitTags: optionalArray(createEnum<TraitTag>(TraitTag, "TraitTag")),
     languageTags: optional(
         t.array(createEnum<LanguageTag>(LanguageTag, "LanguageTag"))
     ),
     spellcastingTags: optional(
         t.array(createEnum<SpellcastingTag>(SpellcastingTag, "SpellcastingTag"))
     ),
-    miscTags: optional(t.array(createEnum<MiscTag>(MiscTag, "MiscTag")))
+    miscTags: optionalArray(createEnum<MiscTag>(MiscTag, "MiscTag"))
 });
 
 const ResistSchema = t.union([
@@ -336,6 +338,17 @@ const MonsterGroupSchema = createEnum<MonsterGroup>(
     "MonsterGroup"
 );
 
+const ArtReferenceSchema = t.strict({
+    name: t.string,
+    source: t.string,
+    page: optional(t.number)
+});
+
+const SourceSchema = t.strict({
+    source: t.string,
+    page: optional(t.number)
+});
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -354,25 +367,28 @@ export const MonsterSchema = t.intersection([
         skill: SkillsSchema,
         speed: SpeedsSchema,
         save: optional(SavesSchema),
-        immune: optionalWithNull(t.array(DamageImmunitySchema)),
-        resist: optionalWithNull(t.array(ResistSchema)),
+        immune: optionalArray(DamageImmunitySchema),
+        resist: optionalArray(ResistSchema),
         conditionImmune: ConditionImmunitySchema,
-        senses: optionalWithNull(t.array(t.string)),
-        languages: optionalWithNull(t.array(t.string)),
+        senses: optionalArray(t.string),
+        languages: optionalArray(t.string),
         cr: ChallengeRatingSchema,
-        trait: optionalWithNull(t.array(TraitSchema)),
-        spellcasting: optionalWithNull(t.array(SpellcastingSchema)),
-        action: optionalWithNull(t.array(ActionLikeSchema)),
-        reaction: optional(t.array(ActionLikeSchema)),
-        legendary: optional(t.array(LegendaryActionSchema)),
+        trait: optionalArray(TraitSchema),
+        spellcasting: optionalArray(SpellcastingSchema),
+        action: optionalArray(ActionLikeSchema),
+        reaction: optionalArray(ActionLikeSchema),
+        legendary: optionalArray(LegendaryActionSchema),
         legendaryGroup: optional(LegendaryGroupSchema),
         page: optional(t.number),
         passive: optional(t.number),
         isNpc: optional(t.boolean),
-        vulnerable: optional(t.array(VulnerableSchema)),
+        vulnerable: optionalArray(VulnerableSchema),
         familiar: optional(t.boolean),
         isNamedCreature: optional(t.boolean),
-        group: optional(MonsterGroupSchema)
+        group: optional(MonsterGroupSchema),
+        level: optional(t.number),
+        altArt: optionalArray(ArtReferenceSchema),
+        otherSources: optionalArray(SourceSchema)
     }),
     TagSchema
 ]);

@@ -21,6 +21,10 @@ import { Spellcasting } from "./Spellcasting";
 import { Statistics } from "./Statistics";
 import { Trait } from "./Trait";
 
+export interface MonsterReferenceWithPage extends MonsterReference {
+    page?: number;
+}
+
 export class Monster {
     constructor(
         readonly name: string,
@@ -51,7 +55,9 @@ export class Monster {
         readonly legendaryGroup: LegendaryGroup | null,
         readonly vulnerabilities: DamageModifier[],
         readonly flags: MonsterFlags,
-        readonly group: MonsterGroup | null
+        readonly group: MonsterGroup | null,
+        readonly level: number | null,
+        readonly altArt: MonsterReferenceWithPage[]
     ) {}
 
     is(reference: MonsterReference) {

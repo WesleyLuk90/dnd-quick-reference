@@ -219,7 +219,7 @@ function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
                 )
             );
         }
-        function addDaily(e: string[] | undefined, limit: CastingLimit) {
+        function addDaily(e: string[] | undefined | null, limit: CastingLimit) {
             if (e == null) {
                 return;
             }
@@ -240,7 +240,7 @@ function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
             addDaily(d.daily["3"], new DailyLimit(1));
         }
         function addSpellSlot(
-            data: SpellSlotData | undefined,
+            data: SpellSlotData | undefined | null,
             slotLevel: number
         ) {
             if (data == null) {
@@ -249,7 +249,11 @@ function toSpellcasting(data: MonsterData["spellcasting"]): Spellcasting[] {
             groups.push(
                 new SpellGroup(
                     Spell.fromList(data.spells),
-                    new SpellSlotLimit(slotLevel, data.slots, data.lower),
+                    new SpellSlotLimit(
+                        slotLevel,
+                        data.slots || undefined,
+                        data.lower || undefined
+                    ),
                     false
                 )
             );
@@ -411,6 +415,12 @@ export function toMonster(data: MonsterData): Monster {
             data.familiar || false,
             data.isNamedCreature || false
         ),
-        data.group || null
+        data.group || null,
+        data.level == null ? null : data.level,
+        (data.altArt || []).map(a => ({
+            name: a.name,
+            source: a.source,
+            page: a.page || undefined
+        }))
     );
 }
