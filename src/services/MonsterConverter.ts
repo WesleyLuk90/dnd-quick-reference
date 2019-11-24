@@ -23,6 +23,7 @@ import {
     SubEntry
 } from "../models/MonsterData";
 import { MonsterFlags } from "../models/MonsterFlags";
+import { MonsterSource } from "../models/MonsterSource";
 import { MonsterTags } from "../models/MonsterTags";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { Reaction } from "../models/Reaction";
@@ -421,6 +422,9 @@ export function toMonster(data: MonsterData): Monster {
             name: a.name,
             source: a.source,
             page: a.page || undefined
-        }))
+        })),
+        (data.otherSources || []).map(
+            s => new MonsterSource(s.source, s.page || undefined)
+        )
     );
 }

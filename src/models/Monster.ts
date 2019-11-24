@@ -10,6 +10,7 @@ import { LegendaryGroup } from "./LegendaryGroup";
 import { MonsterReference } from "./MonsterData";
 import { MonsterFlags } from "./MonsterFlags";
 import { MonsterGroup } from "./MonsterGroup";
+import { MonsterSource } from "./MonsterSource";
 import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
 import { Reaction } from "./Reaction";
@@ -57,7 +58,8 @@ export class Monster {
         readonly flags: MonsterFlags,
         readonly group: MonsterGroup | null,
         readonly level: number | null,
-        readonly altArt: MonsterReferenceWithPage[]
+        readonly altArt: MonsterReferenceWithPage[],
+        readonly otherSources: MonsterSource[]
     ) {}
 
     is(reference: MonsterReference) {
