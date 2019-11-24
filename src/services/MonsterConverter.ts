@@ -22,6 +22,7 @@ import {
     SpellSlotData,
     SubEntry
 } from "../models/MonsterData";
+import { MonsterFlags } from "../models/MonsterFlags";
 import { MonsterTags } from "../models/MonsterTags";
 import { MonsterType, Tag } from "../models/MonsterType";
 import { Reaction } from "../models/Reaction";
@@ -404,7 +405,12 @@ export function toMonster(data: MonsterData): Monster {
                   data.legendaryGroup.source
               )
             : null,
-        data.isNpc === true,
-        toVulnerabilities(data.vulnerable)
+        toVulnerabilities(data.vulnerable),
+        new MonsterFlags(
+            data.isNpc || false,
+            data.familiar || false,
+            data.isNamedCreature || false
+        ),
+        data.group || null
     );
 }

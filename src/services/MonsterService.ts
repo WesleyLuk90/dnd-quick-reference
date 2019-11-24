@@ -33,6 +33,27 @@ function find(monsters: Monster[], ref: MonsterReference): Monster {
     return found;
 }
 
+function printEnum(
+    monsters: MonsterData[],
+    addValues: (set: Set<String>, monster: MonsterData) => void
+) {
+    const found = new Set<string>();
+    monsters.forEach(m => {
+        addValues(found, m);
+    });
+    console.log(
+        `export enum Foo {${Array.from(found.values())
+            .map(
+                v =>
+                    `${v
+                        .replace(/ /g, "_")
+                        .replace(/[^a-z_]/gi, "")
+                        .toLocaleUpperCase()} = "${v}"`
+            )
+            .join(",\n")}}`
+    );
+}
+
 let cache: Promise<Monster[]> | null = null;
 export class MonsterService {
     static all(): Promise<Monster[]> {
@@ -68,24 +89,12 @@ export class MonsterService {
             }
             monsters.push({ ...found, ...m });
         });
-        const found = new Set<string>();
-        monsters.forEach(m => {
-            if (m.legendaryGroup != null) {
-                found.add(m.legendaryGroup.name);
+        printEnum(monsters, (f, m) => {
+            if (m.group != null) {
+                f.add(m.group);
             }
         });
-        console.log(
-            `export enum Foo {${Array.from(found.values())
-                .map(
-                    v =>
-                        `${v
-                            .replace(/ /g, "_")
-                            .replace(/[^a-z]/gi, "")
-                            .toLocaleUpperCase()} = "${v}"`
-                )
-                .join(",\n")}}`
-        );
-        const knownKeys = new Set<string>();
+        const knownKeys = new Map<string, any>();
         const foundKeys = new Set<string>();
         let first = true;
         const mon = monsters
@@ -96,7 +105,7 @@ export class MonsterService {
                     console.log(PathReporter.report(result).join("\n"));
                     return m;
                 } else {
-                    Object.keys(m).forEach(k => knownKeys.add(k));
+                    Object.keys(m).forEach(k => knownKeys.set(k, m));
                     Object.keys(result.right).forEach(k => foundKeys.add(k));
                     const differentKeys = Object.keys(result.right).filter(
                         key =>

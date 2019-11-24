@@ -3,6 +3,7 @@ import { BaseAlignment } from "./Alignment";
 import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
 import { createEnum } from "./Enums";
+import { MonsterGroup } from "./MonsterGroup";
 import {
     ActionTag,
     DamageTag,
@@ -330,6 +331,11 @@ const VulnerableSchema = t.union([
     t.strict({ vulnerable: t.array(DamageTypeSchema), note: t.string })
 ]);
 
+const MonsterGroupSchema = createEnum<MonsterGroup>(
+    MonsterGroup,
+    "MonsterGroup"
+);
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -363,7 +369,10 @@ export const MonsterSchema = t.intersection([
         page: optional(t.number),
         passive: optional(t.number),
         isNpc: optional(t.boolean),
-        vulnerable: optional(t.array(VulnerableSchema))
+        vulnerable: optional(t.array(VulnerableSchema)),
+        familiar: optional(t.boolean),
+        isNamedCreature: optional(t.boolean),
+        group: optional(MonsterGroupSchema)
     }),
     TagSchema
 ]);

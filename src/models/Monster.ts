@@ -8,6 +8,8 @@ import { Health } from "./Health";
 import { LegendaryAction } from "./LegendaryAction";
 import { LegendaryGroup } from "./LegendaryGroup";
 import { MonsterReference } from "./MonsterData";
+import { MonsterFlags } from "./MonsterFlags";
+import { MonsterGroup } from "./MonsterGroup";
 import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
 import { Reaction } from "./Reaction";
@@ -47,8 +49,9 @@ export class Monster {
         readonly reactions: Reaction[],
         readonly legendaryActions: LegendaryAction[],
         readonly legendaryGroup: LegendaryGroup | null,
-        readonly isNpc: boolean,
-        readonly vulnerabilities: DamageModifier[]
+        readonly vulnerabilities: DamageModifier[],
+        readonly flags: MonsterFlags,
+        readonly group: MonsterGroup | null
     ) {}
 
     is(reference: MonsterReference) {
