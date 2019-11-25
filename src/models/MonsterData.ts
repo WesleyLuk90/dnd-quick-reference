@@ -349,6 +349,20 @@ const SourceSchema = t.strict({
     page: optional(t.number)
 });
 
+const VariantSchema = t.strict({
+    type: t.literal("variant"),
+    name: t.string,
+    entries: t.array(
+        t.union([
+            EntrySchema,
+            t.strict({
+                entries: t.array(t.string),
+                type: t.keyof({ entries: null, inset: null })
+            })
+        ])
+    )
+});
+
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
@@ -388,7 +402,8 @@ export const MonsterSchema = t.intersection([
         group: optional(MonsterGroupSchema),
         level: optional(t.number),
         altArt: optionalArray(ArtReferenceSchema),
-        otherSources: optionalArray(SourceSchema)
+        otherSources: optionalArray(SourceSchema),
+        variant: optionalArray(VariantSchema)
     }),
     TagSchema
 ]);

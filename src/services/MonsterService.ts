@@ -1,5 +1,4 @@
 import { isLeft } from "fp-ts/lib/Either";
-import { PathReporter } from "io-ts/lib/PathReporter";
 import { isObjectLike } from "lodash";
 import { Monster } from "../models/Monster";
 import {
@@ -102,7 +101,19 @@ export class MonsterService {
                 const result = MonsterSchema.decode(m);
                 if (isLeft(result)) {
                     console.log(m);
-                    console.log(PathReporter.report(result).join("\n"));
+                    result.left.forEach(error => {
+                        const path = error.context
+                            .map(c => c.key)
+                            .filter(k => !!k)
+                            .join(".");
+                        const value = (
+                            JSON.stringify(error.value) || "undefined"
+                        ).slice(0, 80);
+                        console.log(
+                            `${error.message ||
+                                "Invaild value"} at ${path} got ${value}`
+                        );
+                    });
                     return m;
                 } else {
                     Object.keys(m).forEach(k => knownKeys.set(k, m));
