@@ -1,4 +1,5 @@
-import { isLeft } from "fp-ts/lib/Either";
+import { isLeft, Left } from "fp-ts/lib/Either";
+import { Errors } from "io-ts";
 import { isObjectLike } from "lodash";
 import { Monster } from "../models/Monster";
 import {
@@ -53,6 +54,20 @@ function printEnum(
     );
 }
 
+function printError(monsterData: MonsterData, result: Left<Errors>) {
+    console.log(monsterData);
+    result.left.forEach(error => {
+        const path = error.context
+            .map(c => c.key)
+            .filter(k => !!k)
+            .join(".");
+        const value = (JSON.stringify(error.value) || "undefined").slice(0, 80);
+        console.log(
+            `${error.message || "Invaild value"} at ${path} got ${value}`
+        );
+    });
+}
+
 let cache: Promise<Monster[]> | null = null;
 export class MonsterService {
     static all(): Promise<Monster[]> {
@@ -100,20 +115,7 @@ export class MonsterService {
             .map(m => {
                 const result = MonsterSchema.decode(m);
                 if (isLeft(result)) {
-                    console.log(m);
-                    result.left.forEach(error => {
-                        const path = error.context
-                            .map(c => c.key)
-                            .filter(k => !!k)
-                            .join(".");
-                        const value = (
-                            JSON.stringify(error.value) || "undefined"
-                        ).slice(0, 80);
-                        console.log(
-                            `${error.message ||
-                                "Invaild value"} at ${path} got ${value}`
-                        );
-                    });
+                    printError(m, result);
                     return m;
                 } else {
                     Object.keys(m).forEach(k => knownKeys.set(k, m));
