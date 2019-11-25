@@ -181,40 +181,125 @@ export const ChallengeRatingSchema = t.union([
     })
 ]);
 
-const SubEntrySchema = t.union([
-    t.string,
-    t.strict({
-        type: t.literal("link"),
-        href: t.strict({
-            type: t.literal("internal"),
-            path: t.literal("variantrules.html"),
-            hash: t.literal("madness_dmg")
+export type Entry =
+    | string
+    | {
+          type: "item";
+          name: string;
+          entry: string;
+      }
+    | {
+          type: "list";
+          items: Entry[];
+          style: "list-hang-notitle" | null | undefined;
+      }
+    | {
+          type: "inset";
+          name: string;
+          entries: Entry[];
+          token: t.TypeOf<typeof PageSourceSchema> | null | undefined;
+      }
+    | {
+          type: "variantSub";
+          name: string;
+          entries: Entry[];
+      }
+    | {
+          type: "variant";
+          name: string;
+          entries: Entry[];
+          variantSource: t.TypeOf<typeof SourceSchema> | null | undefined;
+      }
+    | {
+          type: "inline";
+          entries: Entry[];
+      }
+    | {
+          type: "entries";
+          name: string | null | undefined;
+          entries: Entry[];
+      }
+    | {
+          type: "link";
+          href: {
+              type: "internal";
+              path: "variantrules.html";
+              hash: "madness_dmg";
+          };
+          text: string;
+      }
+    | {
+          type: "table";
+          caption: string | null | undefined;
+          colLabels: string[];
+          colStyles: string[];
+          rows: string[][];
+      }
+    | ({
+          type: "spellcasting";
+      } & t.TypeOf<typeof SpellcastingSchema>);
+
+const EntrySchema: t.Type<Entry> = t.recursion("Entry", () =>
+    t.union([
+        t.string,
+        t.strict({
+            type: t.literal("list"),
+            items: t.array(EntrySchema),
+            style: optional(t.literal("list-hang-notitle"))
         }),
-        text: t.string
-    }),
-    t.strict({
-        type: t.literal("item"),
-        name: t.string,
-        entry: t.string
-    })
-]);
-
-export type SubEntry = t.TypeOf<typeof SubEntrySchema>;
-
-const EntrySchema = t.union([
-    t.string,
-    t.strict({
-        type: t.literal("list"),
-        items: t.array(SubEntrySchema),
-        style: optional(t.literal("list-hang-notitle"))
-    }),
-    t.strict({
-        type: t.literal("inline"),
-        entries: t.array(SubEntrySchema)
-    })
-]);
-
-export type Entry = t.TypeOf<typeof EntrySchema>;
+        t.strict({
+            type: t.literal("link"),
+            href: t.strict({
+                type: t.literal("internal"),
+                path: t.literal("variantrules.html"),
+                hash: t.literal("madness_dmg")
+            }),
+            text: t.string
+        }),
+        t.strict({
+            type: t.literal("item"),
+            name: t.string,
+            entry: t.string
+        }),
+        t.strict({
+            type: t.literal("inline"),
+            entries: t.array(EntrySchema)
+        }),
+        t.strict({
+            type: t.literal("entries"),
+            name: optional(t.string),
+            entries: t.array(EntrySchema)
+        }),
+        t.strict({
+            type: t.literal("variantSub"),
+            name: t.string,
+            entries: t.array(EntrySchema)
+        }),
+        t.strict({
+            type: t.literal("inset"),
+            name: t.string,
+            entries: t.array(EntrySchema),
+            token: optional(PageSourceSchema)
+        }),
+        t.strict({
+            type: t.literal("variant"),
+            name: t.string,
+            entries: t.array(EntrySchema),
+            variantSource: optional(SourceSchema)
+        }),
+        t.strict({
+            type: t.literal("table"),
+            caption: optional(t.string),
+            colLabels: t.array(t.string),
+            colStyles: t.array(t.string),
+            rows: t.array(t.array(t.string))
+        }),
+        t.intersection([
+            t.strict({ type: t.literal("spellcasting") }),
+            SpellcastingSchema
+        ])
+    ])
+);
 
 const TraitSchema = t.strict({
     type: optional(t.keyof({ entries: null, inset: null })),
@@ -338,7 +423,7 @@ const MonsterGroupSchema = createEnum<MonsterGroup>(
     "MonsterGroup"
 );
 
-const ArtReferenceSchema = t.strict({
+const PageSourceSchema = t.strict({
     name: t.string,
     source: t.string,
     page: optional(t.number)
@@ -347,20 +432,6 @@ const ArtReferenceSchema = t.strict({
 const SourceSchema = t.strict({
     source: t.string,
     page: optional(t.number)
-});
-
-const VariantSchema = t.strict({
-    type: t.literal("variant"),
-    name: t.string,
-    entries: t.array(
-        t.union([
-            EntrySchema,
-            t.strict({
-                entries: t.array(t.string),
-                type: t.keyof({ entries: null, inset: null })
-            })
-        ])
-    )
 });
 
 export const MonsterSchema = t.intersection([
@@ -401,9 +472,9 @@ export const MonsterSchema = t.intersection([
         isNamedCreature: optional(t.boolean),
         group: optional(MonsterGroupSchema),
         level: optional(t.number),
-        altArt: optionalArray(ArtReferenceSchema),
+        altArt: optionalArray(PageSourceSchema),
         otherSources: optionalArray(SourceSchema),
-        variant: optionalArray(VariantSchema)
+        variant: optionalArray(EntrySchema)
     }),
     TagSchema
 ]);

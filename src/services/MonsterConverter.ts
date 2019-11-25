@@ -16,12 +16,7 @@ import { DefaultHealth, SpecialHealth } from "../models/Health";
 import { LegendaryAction } from "../models/LegendaryAction";
 import { LegendaryGroup } from "../models/LegendaryGroup";
 import { Monster } from "../models/Monster";
-import {
-    Entry,
-    MonsterData,
-    SpellSlotData,
-    SubEntry
-} from "../models/MonsterData";
+import { Entry, MonsterData, SpellSlotData } from "../models/MonsterData";
 import { MonsterFlags } from "../models/MonsterFlags";
 import { MonsterSource } from "../models/MonsterSource";
 import { MonsterTags } from "../models/MonsterTags";
@@ -186,7 +181,7 @@ function toChallengeRating(data: MonsterData["cr"]) {
     return new ChallengeRating(data.cr, data.lair || "", data.coven || "");
 }
 
-function toSubContent(subEntries: SubEntry[]) {
+function toSubContent(subEntries: any[]) {
     return subEntries.map(se => {
         if (typeof se === "string") {
             return new TextContent(se);
@@ -289,7 +284,7 @@ function toContent(entries: Entry[]) {
             } else if (e.type === "list") {
                 return new ListContent(toSubContent(e.items));
             } else {
-                return new InlineContent(toSubContent(e.entries));
+                return new InlineContent(toSubContent((e as any).entries));
             }
         })
     );
