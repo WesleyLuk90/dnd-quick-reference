@@ -19,6 +19,7 @@ import { LegendaryGroup } from "../models/LegendaryGroup";
 import { Monster } from "../models/Monster";
 import { Entry, MonsterData, SpellSlotData } from "../models/MonsterData";
 import { MonsterFlags } from "../models/MonsterFlags";
+import { MonsterNames } from "../models/MonsterNames";
 import { MonsterSource } from "../models/MonsterSource";
 import { MonsterTags } from "../models/MonsterTags";
 import { MonsterType, Tag } from "../models/MonsterType";
@@ -385,6 +386,7 @@ function toVulnerabilities(data: MonsterData["vulnerable"]): DamageModifier[] {
 export function toMonster(data: MonsterData): Monster {
     return new Monster(
         data.name,
+        new MonsterNames(data.shortName || "", data.alias || []),
         data.source,
         toAC(data.ac),
         data.size,
@@ -430,6 +432,10 @@ export function toMonster(data: MonsterData): Monster {
         })),
         (data.otherSources || []).map(
             s => new MonsterSource(s.source, s.page || undefined)
-        )
+        ),
+        data.soundClip || "",
+        data.environment || [],
+        data.dragonCastingColor || null,
+        data.actionNote || null
     );
 }

@@ -104,8 +104,8 @@ export class MonsterService {
             monsters.push({ ...found, ...m });
         });
         printEnum(monsters, (f, m) => {
-            if (m.group != null) {
-                f.add(m.group);
+            if (m.dragonCastingColor != null) {
+                f.add(m.dragonCastingColor);
             }
         });
         const knownKeys = new Map<string, any>();

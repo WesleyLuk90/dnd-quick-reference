@@ -4,12 +4,15 @@ import { ArmorClass } from "./ArmorClass";
 import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
+import { DragonCastingColor } from "./DragonCastingColor";
+import { Environment } from "./Environment";
 import { Health } from "./Health";
 import { Legendary } from "./Legendary";
 import { LegendaryGroup } from "./LegendaryGroup";
 import { MonsterReference } from "./MonsterData";
 import { MonsterFlags } from "./MonsterFlags";
 import { MonsterGroup } from "./MonsterGroup";
+import { MonsterNames } from "./MonsterNames";
 import { MonsterSource } from "./MonsterSource";
 import { MonsterTags } from "./MonsterTags";
 import { MonsterType } from "./MonsterType";
@@ -29,6 +32,7 @@ export interface MonsterReferenceWithPage extends MonsterReference {
 export class Monster {
     constructor(
         readonly name: string,
+        readonly names: MonsterNames,
         readonly source: string,
         readonly acs: ArmorClass[],
         readonly size: Size,
@@ -59,7 +63,11 @@ export class Monster {
         readonly group: MonsterGroup | null,
         readonly level: number | null,
         readonly altArt: MonsterReferenceWithPage[],
-        readonly otherSources: MonsterSource[]
+        readonly otherSources: MonsterSource[],
+        readonly soundClip: string,
+        readonly environment: Environment[],
+        readonly dragonCastingColor: DragonCastingColor | null,
+        readonly actionNote: string | null
     ) {}
 
     is(reference: MonsterReference) {

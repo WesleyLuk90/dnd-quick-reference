@@ -2,7 +2,9 @@ import * as t from "io-ts";
 import { BaseAlignment } from "./Alignment";
 import { Condition } from "./Condition";
 import { DamageType } from "./DamageType";
+import { DragonCastingColor } from "./DragonCastingColor";
 import { createEnum } from "./Enums";
+import { Environment } from "./Environment";
 import { MonsterGroup } from "./MonsterGroup";
 import {
     ActionTag,
@@ -433,6 +435,7 @@ const SourceSchema = t.strict({
 export const MonsterSchema = t.intersection([
     t.strict({
         name: t.string,
+        shortName: optional(t.string),
         source: t.string,
         ac: t.array(ACSchema),
         size: SizeSchema,
@@ -472,7 +475,19 @@ export const MonsterSchema = t.intersection([
         otherSources: optionalArray(SourceSchema),
         variant: optionalArray(EntrySchema),
         legendaryHeader: optionalArray(t.string),
-        legendaryActions: optional(t.number)
+        legendaryActions: optional(t.number),
+        soundClip: optional(t.string),
+        environment: optionalArray(
+            createEnum<Environment>(Environment, "Environment")
+        ),
+        dragonCastingColor: optional(
+            createEnum<DragonCastingColor>(
+                DragonCastingColor,
+                "DragonCastingColor"
+            )
+        ),
+        alias: optionalArray(t.string),
+        actionNote: optional(t.string)
     }),
     TagSchema
 ]);
