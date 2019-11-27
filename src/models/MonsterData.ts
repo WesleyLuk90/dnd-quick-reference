@@ -471,7 +471,8 @@ export const MonsterSchema = t.intersection([
         altArt: optionalArray(PageSourceSchema),
         otherSources: optionalArray(SourceSchema),
         variant: optionalArray(EntrySchema),
-        legendaryHeader: optionalArray(t.string)
+        legendaryHeader: optionalArray(t.string),
+        legendaryActions: optional(t.number)
     }),
     TagSchema
 ]);

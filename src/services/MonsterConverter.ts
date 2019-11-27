@@ -309,6 +309,8 @@ function toReactions(data: MonsterData["reaction"]): Reaction[] {
     );
 }
 
+const DEFAULT_LEGENDARY_ACTIONS = 3;
+
 function toLegendary(data: MonsterData): Legendary | null {
     if (data.legendaryHeader == null && data.legendary == null) {
         return null;
@@ -321,7 +323,8 @@ function toLegendary(data: MonsterData): Legendary | null {
                     action.name || "",
                     toContent(action.entries)
                 )
-        )
+        ),
+        data.legendaryActions || DEFAULT_LEGENDARY_ACTIONS
     );
 }
 
