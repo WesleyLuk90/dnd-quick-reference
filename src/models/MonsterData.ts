@@ -363,19 +363,15 @@ const SpellcastingSchema = t.strict({
 });
 
 const TagSchema = t.strict({
-    actionTags: optional(
-        t.array(createEnum<ActionTag>(ActionTag, "ActionTag"))
-    ),
-    damageTags: optional(
-        t.array(createEnum<DamageTag>(DamageTag, "DamageTag"))
-    ),
+    actionTags: optionalArray(createEnum<ActionTag>(ActionTag, "ActionTag")),
+    damageTags: optionalArray(createEnum<DamageTag>(DamageTag, "DamageTag")),
     senseTags: optionalArray(createEnum<SenseTag>(SenseTag, "SenseTag")),
     traitTags: optionalArray(createEnum<TraitTag>(TraitTag, "TraitTag")),
-    languageTags: optional(
-        t.array(createEnum<LanguageTag>(LanguageTag, "LanguageTag"))
+    languageTags: optionalArray(
+        createEnum<LanguageTag>(LanguageTag, "LanguageTag")
     ),
-    spellcastingTags: optional(
-        t.array(createEnum<SpellcastingTag>(SpellcastingTag, "SpellcastingTag"))
+    spellcastingTags: optionalArray(
+        createEnum<SpellcastingTag>(SpellcastingTag, "SpellcastingTag")
     ),
     miscTags: optionalArray(createEnum<MiscTag>(MiscTag, "MiscTag"))
 });
@@ -474,7 +470,8 @@ export const MonsterSchema = t.intersection([
         level: optional(t.number),
         altArt: optionalArray(PageSourceSchema),
         otherSources: optionalArray(SourceSchema),
-        variant: optionalArray(EntrySchema)
+        variant: optionalArray(EntrySchema),
+        legendaryHeader: optionalArray(t.string)
     }),
     TagSchema
 ]);

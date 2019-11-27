@@ -13,6 +13,7 @@ import {
 import { DamageModifier } from "../models/DamageModifier";
 import { DamageType } from "../models/DamageType";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
+import { Legendary } from "../models/Legendary";
 import { LegendaryAction } from "../models/LegendaryAction";
 import { LegendaryGroup } from "../models/LegendaryGroup";
 import { Monster } from "../models/Monster";
@@ -308,13 +309,19 @@ function toReactions(data: MonsterData["reaction"]): Reaction[] {
     );
 }
 
-function toLegendaryActions(data: MonsterData["legendary"]): LegendaryAction[] {
-    if (data == null) {
-        return [];
+function toLegendary(data: MonsterData): Legendary | null {
+    if (data.legendaryHeader == null && data.legendary == null) {
+        return null;
     }
-    return data.map(
-        action =>
-            new LegendaryAction(action.name || "", toContent(action.entries))
+    return new Legendary(
+        data.legendaryHeader || [],
+        (data.legendary || []).map(
+            action =>
+                new LegendaryAction(
+                    action.name || "",
+                    toContent(action.entries)
+                )
+        )
     );
 }
 
@@ -398,7 +405,7 @@ export function toMonster(data: MonsterData): Monster {
         toTags(data),
         data.passive || null,
         toReactions(data.reaction),
-        toLegendaryActions(data.legendary),
+        toLegendary(data),
         data.legendaryGroup != null
             ? new LegendaryGroup(
                   data.legendaryGroup.name,

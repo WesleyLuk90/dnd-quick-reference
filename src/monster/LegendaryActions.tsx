@@ -18,13 +18,14 @@ function Legendary({
 }
 
 export function LegendaryActions({ monster }: { monster: Monster }) {
-    if (monster.legendaryActions.length === 0) {
+    if (monster.legendary == null) {
         return null;
     }
     return (
         <>
             <h3>Legendary Actions</h3>
-            {monster.legendaryActions.map((a, i) => (
+            <p>{monster.legendary.header.join(" ")}</p>
+            {monster.legendary.actions.map((a, i) => (
                 <Legendary key={i} legendaryAction={a} />
             ))}
         </>

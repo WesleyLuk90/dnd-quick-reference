@@ -5,7 +5,7 @@ import { ChallengeRating } from "./ChallengeRating";
 import { ConditionImmunity } from "./ConditionImmunity";
 import { DamageModifier } from "./DamageModifier";
 import { Health } from "./Health";
-import { LegendaryAction } from "./LegendaryAction";
+import { Legendary } from "./Legendary";
 import { LegendaryGroup } from "./LegendaryGroup";
 import { MonsterReference } from "./MonsterData";
 import { MonsterFlags } from "./MonsterFlags";
@@ -52,7 +52,7 @@ export class Monster {
         readonly tags: MonsterTags,
         readonly passivePerception: number | null,
         readonly reactions: Reaction[],
-        readonly legendaryActions: LegendaryAction[],
+        readonly legendary: Legendary | null,
         readonly legendaryGroup: LegendaryGroup | null,
         readonly vulnerabilities: DamageModifier[],
         readonly flags: MonsterFlags,
