@@ -12,6 +12,10 @@ const ITEMS = [
     {
         path: "monsters",
         label: "Monsters"
+    },
+    {
+        path: "items",
+        label: "Items"
     }
 ];
 
