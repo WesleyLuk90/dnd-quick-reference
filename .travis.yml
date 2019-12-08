@@ -14,3 +14,4 @@ deploy:
     on:
         branch: master
     local_dir: build
+    fqdn: dqr.wesleyluk.com
