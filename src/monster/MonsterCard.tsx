@@ -1,6 +1,6 @@
 import React from "react";
 import { loader } from "../components/Loader";
-import { MonsterReference } from "../models/MonsterData";
+import { MonsterReference } from "../dataModels/MonsterData";
 import { MonsterService } from "../services/MonsterService";
 import "./MonsterCard.css";
 import { MonsterSheet } from "./MonsterSheet";

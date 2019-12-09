@@ -1,15 +1,10 @@
+import { Entry, MonsterData, SpellSlotData } from "../dataModels/MonsterData";
 import { Action } from "../models/Action";
 import { Alignment, MonsterAlignment } from "../models/Alignment";
 import { ArmorClass } from "../models/ArmorClass";
 import { ChallengeRating } from "../models/ChallengeRating";
 import { ConditionImmunity } from "../models/ConditionImmunity";
-import {
-    InlineContent,
-    LabeledContent,
-    LinkContent,
-    ListContent,
-    TextContent
-} from "../models/Content";
+import { InlineContent, LabeledContent, LinkContent, ListContent, TextContent } from "../models/Content";
 import { DamageModifier } from "../models/DamageModifier";
 import { DamageType } from "../models/DamageType";
 import { DefaultHealth, SpecialHealth } from "../models/Health";
@@ -17,7 +12,6 @@ import { Legendary } from "../models/Legendary";
 import { LegendaryAction } from "../models/LegendaryAction";
 import { LegendaryGroup } from "../models/LegendaryGroup";
 import { Monster } from "../models/Monster";
-import { Entry, MonsterData, SpellSlotData } from "../models/MonsterData";
 import { MonsterFlags } from "../models/MonsterFlags";
 import { MonsterNames } from "../models/MonsterNames";
 import { MonsterSource } from "../models/MonsterSource";
@@ -28,16 +22,7 @@ import { SavingThrow } from "../models/SavingThrow";
 import { Skill } from "../models/Skill";
 import { SkillTypes } from "../models/SkillType";
 import { Speed, SpeedTypes } from "../models/Speed";
-import {
-    CastingLimit,
-    DailyEachLimit,
-    DailyLimit,
-    NoLimit,
-    Spell,
-    Spellcasting,
-    SpellGroup,
-    SpellSlotLimit
-} from "../models/Spellcasting";
+import { CastingLimit, DailyEachLimit, DailyLimit, NoLimit, Spell, Spellcasting, SpellGroup, SpellSlotLimit } from "../models/Spellcasting";
 import { AbilityScores, Statistics } from "../models/Statistics";
 import { Trait } from "../models/Trait";
 

@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { BaseAlignment } from "./Alignment";
-import { Condition } from "./Condition";
-import { DamageType } from "./DamageType";
-import { DragonCastingColor } from "./DragonCastingColor";
-import { createEnum } from "./Enums";
-import { Environment } from "./Environment";
-import { MonsterGroup } from "./MonsterGroup";
+import { BaseAlignment } from "../models/Alignment";
+import { Condition } from "../models/Condition";
+import { DamageType } from "../models/DamageType";
+import { DragonCastingColor } from "../models/DragonCastingColor";
+import { createEnum } from "../models/Enums";
+import { Environment } from "../models/Environment";
+import { MonsterGroup } from "../models/MonsterGroup";
 import {
     ActionTag,
     DamageTag,
@@ -14,9 +14,9 @@ import {
     SenseTag,
     SpellcastingTag,
     TraitTag
-} from "./MonsterTags";
-import { Size } from "./Size";
-import { AbilityScore } from "./Statistics";
+} from "../models/MonsterTags";
+import { Size } from "../models/Size";
+import { AbilityScore } from "../models/Statistics";
 
 function optional<T extends t.Mixed>(
     type: T

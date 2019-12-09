@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../components/Input";
 import { Scroller } from "../components/Scroller";
+import { MonsterReference } from "../dataModels/MonsterData";
 import { Monster } from "../models/Monster";
-import { MonsterReference } from "../models/MonsterData";
 import { MonsterService } from "../services/MonsterService";
 import { BemBuilder } from "../utils/BemBuilder";
 import { classNames } from "./Classnames";

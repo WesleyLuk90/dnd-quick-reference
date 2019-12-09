@@ -1,7 +1,4 @@
-import { isLeft, Left } from "fp-ts/lib/Either";
-import { Errors } from "io-ts";
 import { isObjectLike } from "lodash";
-import { Monster } from "../models/Monster";
 import {
     ExtendedMonster,
     isExtendedMonster,
@@ -9,7 +6,10 @@ import {
     MonsterData,
     MonsterReference,
     MonsterSchema
-} from "../models/MonsterData";
+} from "../dataModels/MonsterData";
+import { parseData } from "../dataModels/Parse";
+import { Monster } from "../models/Monster";
+import { notNull } from "../utils/NotNull";
 import { HttpService } from "./HttpService";
 import { toMonster } from "./MonsterConverter";
 
@@ -52,20 +52,6 @@ function printEnum(
             )
             .join(",\n")}}`
     );
-}
-
-function printError(monsterData: MonsterData, result: Left<Errors>) {
-    console.log(monsterData);
-    result.left.forEach(error => {
-        const path = error.context
-            .map(c => c.key)
-            .filter(k => !!k)
-            .join(".");
-        const value = (JSON.stringify(error.value) || "undefined").slice(0, 80);
-        console.log(
-            `${error.message || "Invaild value"} at ${path} got ${value}`
-        );
-    });
 }
 
 let cache: Promise<Monster[]> | null = null;
@@ -112,33 +98,34 @@ export class MonsterService {
         const foundKeys = new Set<string>();
         let first = true;
         const mon = monsters
-            .map(m => {
-                const result = MonsterSchema.decode(m);
-                if (isLeft(result)) {
-                    printError(m, result);
-                    return m;
-                } else {
-                    Object.keys(m).forEach(k => knownKeys.set(k, m));
-                    Object.keys(result.right).forEach(k => foundKeys.add(k));
-                    const differentKeys = Object.keys(result.right).filter(
-                        key =>
-                            !isEqual(
-                                (m as any)[key],
-                                (result.right as any)[key]
-                            )
-                    );
-                    if (differentKeys.length > 0 && first) {
-                        console.error("Found different keys", differentKeys);
-                        console.log(result.right);
-                        console.log(m);
-                        differentKeys.forEach(k =>
-                            console.log((result.right as any)[k], (m as any)[k])
-                        );
-                        first = false;
-                    }
-                    return result.right;
+            .map(rawMonster => {
+                const monster = parseData(MonsterSchema, rawMonster);
+                if (monster == null) {
+                    return null;
                 }
+                Object.keys(rawMonster).forEach(k =>
+                    knownKeys.set(k, rawMonster)
+                );
+                Object.keys(monster).forEach(k => foundKeys.add(k));
+                const differentKeys = Object.keys(monster).filter(
+                    key =>
+                        !isEqual(
+                            (rawMonster as any)[key],
+                            (monster as any)[key]
+                        )
+                );
+                if (differentKeys.length > 0 && first) {
+                    console.error("Found different keys", differentKeys);
+                    console.log(monster);
+                    console.log(rawMonster);
+                    differentKeys.forEach(k =>
+                        console.log((monster as any)[k], (rawMonster as any)[k])
+                    );
+                    first = false;
+                }
+                return monster;
             })
+            .filter(notNull)
             .map(toMonster);
         foundKeys.forEach(k => knownKeys.delete(k));
         console.log(knownKeys);

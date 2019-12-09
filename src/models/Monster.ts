@@ -1,3 +1,4 @@
+import { MonsterReference } from "../dataModels/MonsterData";
 import { Action } from "./Action";
 import { MonsterAlignment } from "./Alignment";
 import { ArmorClass } from "./ArmorClass";
@@ -9,7 +10,6 @@ import { Environment } from "./Environment";
 import { Health } from "./Health";
 import { Legendary } from "./Legendary";
 import { LegendaryGroup } from "./LegendaryGroup";
-import { MonsterReference } from "./MonsterData";
 import { MonsterFlags } from "./MonsterFlags";
 import { MonsterGroup } from "./MonsterGroup";
 import { MonsterNames } from "./MonsterNames";
