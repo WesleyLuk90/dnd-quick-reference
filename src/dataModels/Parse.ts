@@ -2,8 +2,12 @@ import { isLeft, Left } from "fp-ts/lib/Either";
 import * as t from "io-ts";
 
 function printError(original: any, result: Left<t.Errors>) {
+    console.error(`Found ${result.left.length} errors`);
     console.log(original);
-    result.left.forEach(error => {
+    result.left.forEach((error, i) => {
+        if (i > 10) {
+            return;
+        }
         const path = error.context
             .map(c => c.key)
             .filter(k => !!k)

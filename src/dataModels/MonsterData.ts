@@ -16,19 +16,10 @@ import {
     TraitTag
 } from "../models/MonsterTags";
 import { Size } from "../models/Size";
-import { AbilityScore } from "../models/Statistics";
-
-function optional<T extends t.Mixed>(
-    type: T
-): t.UnionC<[T, t.UndefinedC, t.NullC]> {
-    return t.union([type, t.undefined, t.null]);
-}
-
-function optionalArray<T extends t.Mixed>(
-    type: T
-): t.UnionC<[t.ArrayC<T>, t.UndefinedC, t.NullC]> {
-    return optional(t.array(type));
-}
+import { EntrySchema } from "./EntryData";
+import { PageSourceSchema, SourceSchema } from "./Sources";
+import { SpellcastingSchema } from "./Spellcasting";
+import { optional, optionalArray } from "./Types";
 
 const ComplexACSchema = t.strict({
     ac: t.number,
@@ -183,185 +174,10 @@ export const ChallengeRatingSchema = t.union([
     })
 ]);
 
-export type Entry =
-    | string
-    | {
-          type: "item";
-          name: string;
-          entry: string;
-      }
-    | {
-          type: "list";
-          items: Entry[];
-          style: "list-hang-notitle" | null | undefined;
-      }
-    | {
-          type: "inset";
-          name: string;
-          entries: Entry[];
-          token: t.TypeOf<typeof PageSourceSchema> | null | undefined;
-      }
-    | {
-          type: "variantSub";
-          name: string;
-          entries: Entry[];
-      }
-    | {
-          type: "variant";
-          name: string;
-          entries: Entry[];
-          variantSource: t.TypeOf<typeof SourceSchema> | null | undefined;
-      }
-    | {
-          type: "inline";
-          entries: Entry[];
-      }
-    | {
-          type: "entries";
-          name: string | null | undefined;
-          entries: Entry[];
-      }
-    | {
-          type: "link";
-          href: {
-              type: "internal";
-              path: "variantrules.html";
-              hash: "madness_dmg";
-          };
-          text: string;
-      }
-    | {
-          type: "table";
-          caption: string | null | undefined;
-          colLabels: string[];
-          colStyles: string[];
-          rows: string[][];
-      }
-    | ({
-          type: "spellcasting";
-      } & t.TypeOf<typeof SpellcastingSchema>);
-
-const EntrySchema: t.Type<Entry> = t.recursion("Entry", () =>
-    t.union([
-        t.string,
-        t.strict({
-            type: t.literal("list"),
-            items: t.array(EntrySchema),
-            style: optional(t.literal("list-hang-notitle"))
-        }),
-        t.strict({
-            type: t.literal("link"),
-            href: t.strict({
-                type: t.literal("internal"),
-                path: t.literal("variantrules.html"),
-                hash: t.literal("madness_dmg")
-            }),
-            text: t.string
-        }),
-        t.strict({
-            type: t.literal("item"),
-            name: t.string,
-            entry: t.string
-        }),
-        t.strict({
-            type: t.literal("inline"),
-            entries: t.array(EntrySchema)
-        }),
-        t.strict({
-            type: t.literal("entries"),
-            name: optional(t.string),
-            entries: t.array(EntrySchema)
-        }),
-        t.strict({
-            type: t.literal("variantSub"),
-            name: t.string,
-            entries: t.array(EntrySchema)
-        }),
-        t.strict({
-            type: t.literal("inset"),
-            name: t.string,
-            entries: t.array(EntrySchema),
-            token: optional(PageSourceSchema)
-        }),
-        t.strict({
-            type: t.literal("variant"),
-            name: t.string,
-            entries: t.array(EntrySchema),
-            variantSource: optional(SourceSchema)
-        }),
-        t.strict({
-            type: t.literal("table"),
-            caption: optional(t.string),
-            colLabels: t.array(t.string),
-            colStyles: t.array(t.string),
-            rows: t.array(t.array(t.string))
-        }),
-        t.intersection([
-            t.strict({ type: t.literal("spellcasting") }),
-            SpellcastingSchema
-        ])
-    ])
-);
-
 const TraitSchema = t.strict({
     type: optional(t.keyof({ entries: null, inset: null })),
     name: t.string,
     entries: t.array(EntrySchema)
-});
-
-const AbilityScoresSchema = createEnum<AbilityScore>(
-    AbilityScore,
-    "AbilityScore"
-);
-
-const SpellReference = t.string;
-
-const SpellSchema = t.strict({
-    lower: optional(t.number),
-    slots: optional(t.number),
-    spells: t.array(SpellReference)
-});
-
-export type SpellSlotData = t.TypeOf<typeof SpellSchema>;
-
-const SpellcastingSchema = t.strict({
-    name: t.string,
-    ability: optional(AbilityScoresSchema),
-    headerEntries: t.array(t.string),
-    footerEntries: optionalArray(t.string),
-    will: optionalArray(SpellReference),
-    hidden: optional(
-        t.array(
-            t.keyof({
-                daily: null,
-                will: null
-            })
-        )
-    ),
-    daily: optional(
-        t.strict({
-            "1e": optionalArray(SpellReference),
-            "2e": optionalArray(SpellReference),
-            "3e": optionalArray(SpellReference),
-            "1": optionalArray(SpellReference),
-            "2": optionalArray(SpellReference),
-            "3": optionalArray(SpellReference)
-        })
-    ),
-    spells: optional(
-        t.strict({
-            "0": optional(SpellSchema),
-            "1": optional(SpellSchema),
-            "2": optional(SpellSchema),
-            "3": optional(SpellSchema),
-            "4": optional(SpellSchema),
-            "5": optional(SpellSchema),
-            "6": optional(SpellSchema),
-            "7": optional(SpellSchema),
-            "8": optional(SpellSchema),
-            "9": optional(SpellSchema)
-        })
-    )
 });
 
 const TagSchema = t.strict({
@@ -420,17 +236,6 @@ const MonsterGroupSchema = createEnum<MonsterGroup>(
     MonsterGroup,
     "MonsterGroup"
 );
-
-const PageSourceSchema = t.strict({
-    name: t.string,
-    source: t.string,
-    page: optional(t.number)
-});
-
-const SourceSchema = t.strict({
-    source: t.string,
-    page: optional(t.number)
-});
 
 export const MonsterSchema = t.intersection([
     t.strict({
